@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>    
+  </head>
+  <style>
+    .red {
+      color: red;
+    }
+  </style>
+  <body>
+    <h1>{{.Title}}</h1>
+
+    <form id="form">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" />
+      <span class="username-error red" ></span>
+      <br />
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" />
+      <span class="email-error red"></span>
+      <br />
+      <label for="address">Address</label>
+      <input type="address" id="address" name="address" />
+      <span class="address-error red"></span>
+      <br />
+      <label for="phone">Phone</label>
+      <input type="phone" id="phone" name="phone" />
+      <span class="phone-error red"></span>
+      <br />
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" />
+      <span class="password-error red"></span>
+      <br />
+      <button type="submit">Signup</button>
+    </form>
+    <a href="/login">Login</a>
+  </body>
+  <script>
+    $(document).ready(function () {
+      $("#form").on("submit", function (event) {
+        event.preventDefault(); // Ngăn chặn hành động gửi mặc định của biểu mẫu
+
+        // Lấy dữ liệu biểu mẫu
+        var formData = $(this).serialize();
+        console.log('Hoai dang gui request');
+        // Gửi dữ liệu biểu mẫu bằng AJAX
+        // $.ajax({
+        //   type: "POST",
+        //   url: "/signup", // Địa chỉ URL xử lý yêu cầu đăng nhập
+        //   data: formData,
+        //   success: function (response) {
+        //     // Xử lý phản hồi từ server
+        //     // $(".username-error").text(response.NameError);
+        //     // $(".password-error").text(response.PasswordError);
+        //     // $(".email-error").text(response.EmailError);
+        //     // $(".phone-error").text(response.PhoneError);
+        //     // $(".address-error").text(response.AddressError);
+        //     // if (
+        //     //   response.AddressError +
+        //     //     response.PhoneError +
+        //     //     response.NameError +
+        //     //     response.EmailError +
+        //     //     response.PasswordError ==
+        //     //   0
+        //     // ) {
+        //       window.location.href = "/information";
+        //       console.log(response);
+        //     //}
+        //   },
+        //   error: function (xhr, status, error) {
+        //     // Xử lý lỗi
+        //     console.log("Hoai gap bug ne");
+        //     console.log(error, xhr, status);
+        //   },
+        // });
+        $.ajax({
+    url: '/signup', 
+    method: 'POST', 
+    data: formData,
+})
+.done(function(response) {
+    //window.location.href = "/information";
+    console.log('Success:', response);
+})
+.fail(function(jqXHR, textStatus, errorThrown) {
+    // This function runs if the request fails
+    console.log('Request failed:', textStatus);
+    console.error('Error:', errorThrown);
+    console.log(jqXHR);
+    let responseJSON = jqXHR.responseJSON;
+    $(".username-error").text(responseJSON.NameError);
+    $(".password-error").text(responseJSON.PasswordError);
+    $(".email-error").text(responseJSON.EmailError);
+    $(".phone-error").text(responseJSON.PhoneError);
+    $(".address-error").text(responseJSON.AddressError);
+});
+
+      });
+    });
+  </script>
+  <!-- <script>
+    // get informations
+    const nameInput = document.querySelector("input[name='username']");
+    const passwordInput = document.querySelector("input[name='password']");
+    const emailInput = document.querySelector("input[name='email']");
+    const phoneInput = document.querySelector("input[name='phone']");
+    const addressInput = document.querySelector("input[name='address']");
+
+    const usernameError = document.querySelector(".username-error");
+    const passwordError = document.querySelector(".password-error");
+    const emailError = document.querySelector(".email-error");
+    const addressError = document.querySelector(".address-error");
+    const phoneError = document.querySelector(".phone-error");
+
+    const sendMessageBtn = document.querySelector("button[type=submit]");
+
+    const clearErrorMessage = () => {
+      usernameError.textContent = "";
+      passwordError.textContent = "";
+      emailError.textContent = "";
+      phoneError.textContent = "";
+      addressError.textContent = "";
+    };
+
+    const validationEmailError = (email) => {
+      if (email.trim() === "") {
+        emailError.textContent = "Email is required!";
+        // alert("Please enter a valid email address")
+        return false;
+      } else {
+        var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (regexEmail.test(email.trim())) {
+          return true;
+        } else {
+          emailError.innerHTML = "Email is not valid!";
+          return false;
+        }
+      }
+    };
+
+    const validationPhoneNumberError = (phone) => {
+      if (phone.trim() === "") {
+        phoneError.textContent = "Phone is required!";
+        return false;
+      } else {
+        var regex = /^0\d{9}$/;
+        if (regex.test(phoneInput.value)) {
+          return true;
+        } else {
+          phoneError.innerHTML = "Please enter a valid phone number!";
+          return false;
+        }
+      }
+    };
+
+    const validationPasswordError = (password) => {
+      if (password.trim() === "") {
+        passwordError.innerHTML = "Password is required!";
+        return false;
+      } else if (password.trim().length < 8 || password.trim().length > 20) {
+        console.log("Á");
+        passwordError.innerHTML =
+          "Password must be between 8 and 20 characters!";
+        return false;
+      }
+      return true;
+    };
+
+    const validationAddressError = (address) => {
+      if (address.trim() === "") {
+        addressError.innerHTML = "Address is required!";
+        return false;
+      }
+      return true;
+    };
+
+    const validationUserName = (username) => {
+      if (username.trim().length < 8 || username.trim().length > 30) {
+        usernameError.innerHTML =
+          "Username must be between 8 and 30 characters!";
+        return false;
+      }
+      return true;
+    };
+
+    sendMessageBtn.onclick = function (e) {
+      e.preventDefault(); // Ngăn submit
+      clearErrorMessage();
+
+      if (
+        ( validationUserName(nameInput.value) +
+        validationEmailError(emailInput.value) +
+        validationPhoneNumberError(phoneInput.value) +
+        validationPasswordError(passwordInput.value) +
+        validationAddressError(addressInput.value) ) 
+        == 5
+      ){
+        document.getElementById("form").submit();
+      }
+    };
+  </script> -->
+</html>
