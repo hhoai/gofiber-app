@@ -2,6 +2,7 @@ package main
 
 import (
 	// "fmt"
+
 	"fiber-app/database"
 	"fiber-app/database/migration"
 	"fiber-app/model/entity"
@@ -83,7 +84,7 @@ func main() {
 	database.DatabaseInit()
 	migration.RunMigration()
 
-	engine := html.New("./view", ".html")
+	engine := html.New("./views", ".html")
 
 	store = session.New()
 
@@ -187,19 +188,36 @@ func main() {
 
 		var existingAccount entity.UserEntity
 		// Kiểm tra sự tồn tại của tài khoản
-		result := database.DB.Where("name = ? OR email = ?", p.Username, p.Email).First(&existingAccount)
+		resultFindByUserName := database.DB.Where("name = ? ", p.Username).First(&existingAccount)
+		resultFindByEmail := database.DB.Where("email = ?", p.Email).First(&existingAccount)
 
-		if result.Error != nil && result.Error != gorm.ErrRecordNotFound {
+		if resultFindByUserName.Error != nil && resultFindByUserName.Error != gorm.ErrRecordNotFound {
 			// Xử lý lỗi nếu có lỗi ngoài lỗi không tìm thấy
-			return c.Status(fiber.StatusInternalServerError).JSON(result.Error.Error())
+			return c.Status(fiber.StatusInternalServerError).JSON(resultFindByUserName.Error.Error())
 		}
 
-		if result.Error == nil {
-			// Nếu không có lỗi và tìm thấy bản ghi, trả về lỗi trùng lặp
-			return c.Status(fiber.StatusConflict).JSON("Username or Email already exists")
+		if resultFindByEmail.Error != nil && resultFindByEmail.Error != gorm.ErrRecordNotFound {
+			// Xử lý lỗi nếu có lỗi ngoài lỗi không tìm thấy
+			return c.Status(fiber.StatusInternalServerError).JSON(resultFindByEmail.Error.Error())
 		}
 
 		if validateUsername(p.Username) != "" || validatePassword(p.Password) != "" || validateEmail(p.Email) != "" || validatePhoneNumber(p.Phone) != "" || validateAddress(p.Address) != "" {
+			return c.Status(fiber.StatusConflict).JSON(errorsMessage)
+		}
+
+		if resultFindByUserName.Error == nil {
+			errorsMessage := fiber.Map{
+				"NameError": "UserName already exists",
+			}
+			// Nếu không có lỗi và tìm thấy bản ghi, trả về lỗi trùng lặp
+			return c.Status(fiber.StatusConflict).JSON(errorsMessage)
+		}
+
+		if resultFindByEmail.Error == nil {
+			errorsMessage := fiber.Map{
+				"EmailError": "Email already exists",
+			}
+			// Nếu không có lỗi và tìm thấy bản ghi, trả về lỗi trùng lặp
 			return c.Status(fiber.StatusConflict).JSON(errorsMessage)
 		}
 		// Tạo tài khoản mới
