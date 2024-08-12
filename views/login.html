@@ -9,23 +9,29 @@
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="scss/login.css" />
   </head>
   <body>
     {{ template "layouts/header" .}}
 
-    <h1 class="text-info">{{.Title}}</h1>
+    <div class="login-container">
+      <div class="login-content">
+        <h1 class="text-info">{{.Title}}</h1>
 
-    <form action="/login" method="post">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" required />
-      <br />
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required />
-      <br />
-      <button type="submit">Login</button>
-    </form>
+        <form action="/login" method="post">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required />
+          <br />
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+          <br />
+          <button type="submit">Login</button>
+        </form>
 
-    <a href="/signup">Signup</a>
+        <a href="/signup">Signup</a>
+      </div>
+    </div>
+    {{ template "layouts/footer" .}}
   </body>
   <!-- Bootstrap JS and dependencies -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

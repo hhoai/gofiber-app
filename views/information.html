@@ -1,20 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <h1>{{.Title}}</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="scss/information.css">
+  </head>
+  <body>
+    {{ template "layouts/header" .}}
 
-  <p>{{.Username}}</p>
-  <p>{{.Email}}</p>
-  <p>{{.Password}}</p>
-  <p>{{.Address}}</p>
-  <p>{{.Phone}}</p>
+    <div class="information-container">
+      <div class="information-content">
+        <h1>Thông tin cá nhân</h1>
+        <table>
+          <tr>
+            <td>Tên đăng nhập:</td>
+            <td>
+              <p>{{.Username}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td>Email:</td>
+            <td>
+              <p>{{.Email}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td>Mật khẩu:</td>
+            <td>
+              <p>{{.Password}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td>Địa chỉ:</td>
+            <td>
+              <p>{{.Address}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td>Số điện thoại:</td>
+            <td>
+              <p>{{.Phone}}</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="action">
+        <a href="/">Trang chủ</a>
+        <a href="/logout">Đăng xuất</a>
+      </div>
+    </div>
 
-  <a href="/logout">Logout</a>
-
-</body>
+    {{ template "layouts/footer" .}}
+  </body>
 </html>

@@ -5,50 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{.Title}}</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="scss/signup.css" />
   </head>
-  <style>
-    .red {
-      color: red;
-    }
-  </style>
-  <body>
-    <h1>{{.Title}}</h1>
 
-    <form id="form">
-      <label for="username">Tên đăng nhập</label>
-      <input type="text" id="username" name="username" />
-      <span class="username-error red"></span>
-      <br />
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" />
-      <span class="email-error red"></span>
-      <br />
-      <label for="address">Địa chỉ</label>
-      <input type="address" id="address" name="address" />
-      <span class="address-error red"></span>
-      <br />
-      <label for="phone">Số điện thoại</label>
-      <input type="phone" id="phone" name="phone" />
-      <span class="phone-error red"></span>
-      <br />
-      <label for="password">Mật khẩu</label>
-      <input type="password" id="password" name="password" />
-      <span class="password-error red"></span>
-      <br />
-      <button type="submit">Đăng kí</button>
-    </form>
-    <a href="/login">Đăng nhập</a>
+  <body>
+    {{ template "layouts/header" .}}
+    <div class="signup-container">
+      <div class="signup-content">
+        <h1>{{.Title}}</h1>
+        <form id="form">
+          <label for="username">Tên đăng nhập</label>
+          <input type="text" id="username" name="username" />
+          <span class="username-error red"></span>
+          <br />
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" />
+          <span class="email-error red"></span>
+          <br />
+          <label for="address">Địa chỉ</label>
+          <input type="address" id="address" name="address" />
+          <span class="address-error red"></span>
+          <br />
+          <label for="phone">Số điện thoại</label>
+          <input type="phone" id="phone" name="phone" />
+          <span class="phone-error red"></span>
+          <br />
+          <label for="password">Mật khẩu</label>
+          <input type="password" id="password" name="password" />
+          <span class="password-error red"></span>
+          <br />
+          <button type="submit">Đăng kí</button>
+        </form>
+        <a href="/login">Đăng nhập</a>
+      </div>
+    </div>
+    {{ template "layouts/footer" .}}
   </body>
   <script>
     $(document).ready(function () {
-
       const clearErrorMessage = () => {
         $(".username-error").text("");
         $(".password-error").text("");
         $(".email-error").text("");
         $(".phone-error").text("");
         $(".address-error").text("");
-    };
+      };
 
       $("#form").on("submit", function (event) {
         event.preventDefault(); // Ngăn chặn hành động gửi mặc định của biểu mẫu

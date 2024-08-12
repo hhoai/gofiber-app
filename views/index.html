@@ -10,14 +10,18 @@
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="scss/index.css">
+    <link rel="stylesheet" href="scss/styles.css">
   </head>
   <body>
     {{ template "layouts/header" .}}
 
-    <h1 class="">{{.Title}}</h1>
+    <Sdiv class="homepage-container">
+      <div class="homepage-content">
 
-    <a class="text-blue-600" href="/login">Login</a>
-    <a href="/signup">Signup</a>
+        <h1 class="">{{.Title}}</h1>
+      </div>
+    </Sdiv>
 
     {{ template "layouts/footer" .}}
   </body>
