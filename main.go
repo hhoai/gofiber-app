@@ -93,6 +93,8 @@ func main() {
 		Views: engine,
 	})
 
+	app.Static("/styles", "./styles")
+
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.Render("index", fiber.Map{
 			"Title": "Home Page",
