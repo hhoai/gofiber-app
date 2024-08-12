@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>{{.Title}}</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <style>
@@ -15,7 +15,7 @@
     <h1>{{.Title}}</h1>
 
     <form id="form">
-      <label for="username">Username</label>
+      <label for="username">Tên đăng nhập</label>
       <input type="text" id="username" name="username" />
       <span class="username-error red"></span>
       <br />
@@ -23,21 +23,21 @@
       <input type="email" id="email" name="email" />
       <span class="email-error red"></span>
       <br />
-      <label for="address">Address</label>
+      <label for="address">Địa chỉ</label>
       <input type="address" id="address" name="address" />
       <span class="address-error red"></span>
       <br />
-      <label for="phone">Phone</label>
+      <label for="phone">Số điện thoại</label>
       <input type="phone" id="phone" name="phone" />
       <span class="phone-error red"></span>
       <br />
-      <label for="password">Password</label>
+      <label for="password">Mật khẩu</label>
       <input type="password" id="password" name="password" />
       <span class="password-error red"></span>
       <br />
-      <button type="submit">Signup</button>
+      <button type="submit">Đăng kí</button>
     </form>
-    <a href="/login">Login</a>
+    <a href="/login">Đăng nhập</a>
   </body>
   <script>
     $(document).ready(function () {
