@@ -12,6 +12,9 @@ html {
 a {
   text-decoration: none;
 }
+a:hover {
+  text-decoration: none;
+}
 
 li {
   list-style: none;
@@ -51,6 +54,7 @@ li {
 .header-container {
   padding: 0px 15px;
   max-width: 1200px;
+  width: 1200px;
   height: 113px;
   margin: auto;
   padding-top: 15px;
@@ -263,7 +267,6 @@ li {
 }
 
 .signup-container {
-  max-width: 1200px;
   display: flex;
   justify-content: center;
 }
@@ -271,6 +274,65 @@ li {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.signup-container .signup-content h1 {
+  text-align: center;
+  color: #CE0021;
+}
+.signup-container .signup-content form {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+}
+.signup-container .signup-content form label {
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+.signup-container .signup-content form input[type=text],
+.signup-container .signup-content form input[type=email],
+.signup-container .signup-content form input[type=address],
+.signup-container .signup-content form input[type=phone],
+.signup-container .signup-content form input[type=password] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+}
+.signup-container .signup-content form input[type=text]:focus,
+.signup-container .signup-content form input[type=email]:focus,
+.signup-container .signup-content form input[type=address]:focus,
+.signup-container .signup-content form input[type=phone]:focus,
+.signup-container .signup-content form input[type=password]:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+.signup-container .signup-content form .red {
+  color: #ce0021;
+  font-size: 21px;
+}
+.signup-container .signup-content form button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #CE0021;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+.signup-container .signup-content form button:hover {
+  opacity: 0.8;
+}
+.signup-container .signup-content a {
+  text-align: right;
+  margin-top: 10px;
+  color: #ce0021;
+  text-decoration: underline;
+  display: block;
 }
 
 .main-footer {

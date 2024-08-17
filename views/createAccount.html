@@ -22,8 +22,7 @@
       <input type="password" id="password" name="password" />
       <span class="password-error red"></span>
       <br />
-      <button type="submit">Đăng kí</button>
-      <a href="/login">Đăng nhập</a>
+      <button type="submit">Tạo tài khoản</button>
     </form>
   </div>
 </div>
@@ -36,6 +35,7 @@
       $(".email-error").text("");
       $(".phone-error").text("");
       $(".address-error").text("");
+      $(".role-error").text("");
     };
 
     $("#form").on("submit", function (event) {
@@ -44,12 +44,12 @@
       // Lấy dữ liệu biểu mẫu
       var formData = $(this).serialize();
       $.ajax({
-        url: "/signup",
+        url: "/createAccount",
         method: "POST",
         data: formData,
       })
         .done(function (response) {
-          window.location.href = "/information";
+          window.location.href = "/admin";
           console.log("Success:", response);
         })
         .fail(function (jqXHR, textStatus, errorThrown) {

@@ -12,6 +12,9 @@ html {
 a {
   text-decoration: none;
 }
+a:hover {
+  text-decoration: none;
+}
 
 li {
   list-style: none;
@@ -263,20 +266,58 @@ li {
 }
 
 .information-container {
-  max-width: 1200px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  height: 100vh;
 }
 .information-container .information-content {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 900px;
+}
+.information-container .information-content h1 {
+  text-align: center;
+  color: #CE0021;
+  margin-bottom: 20px;
+}
+.information-container .information-content table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.information-container .information-content table td {
+  padding: 8px;
+  border-bottom: 1px solid #ccc;
+}
+.information-container .information-content table td:first-child {
+  font-weight: bold;
+  color: #333;
+}
+.information-container .information-content table td p {
+  margin: 0;
+  font-size: 14px;
 }
 .information-container .action {
+  margin-top: 20px;
   display: flex;
+  justify-content: space-between;
+  width: 500px;
 }
 .information-container .action a {
-  padding: 5px 10px;
+  color: #ffffff;
+  background-color: #CE0021;
+  padding: 10px;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  width: 48%;
+}
+.information-container .action a:hover {
+  opacity: 0.8;
 }
 
 .main-footer {

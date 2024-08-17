@@ -1,44 +1,49 @@
 <!-- welcome -->
 <div class="welcome">
   <div class="welcome-container">
-    <p class="welcome-left">Chào mừng bạn đến với nhà sách Tiến Thọ</p>
+    <p class="welcome-left" style="margin-bottom: 0">
+      Chào mừng bạn đến với nhà sách Tiến Thọ
+    </p>
     <div class="welcome-log">
       <a class="bg-red" href="/signup"> Đăng ký </a>
       | <a href="/login">Đăng nhập</a>
     </div>
+    
   </div>
 </div>
 
 <!-- toolbar -->
-<div class="header-container">
-  <div>
-    <img class="logo" src="/images/logo.png" alt="logo" />
-  </div>
-
-  <div class="search">
-    <input type="search" placeholder="Tìm kiếm... " />
-    <!-- <AiOutlineSearch class="fa-search" /> -->
-    <i class="fas fa-search"></i>
-  </div>
-
-  <div class="hotline">
-    <img class="img-hotline" src="/images/hotline.webp" alt="hotline" />
-    <div class="hotline-phoneNumber">
-      <p class="hotline-text">Hotline:</p>
-      <a class="hotline-tel" href="tel:0987654321">0987654321</a>
+<div style="display: flex; width: 100%">
+  <div class="header-container" style="width: 1200px">
+    <div>
+      <img class="logo" src="/images/logo.png" alt="logo" />
     </div>
-  </div>
 
-  <div class="shopping-cart">
-    <a class="shopping-cart-container" href="#">
-      <!-- <FaShoppingCart class="fa-shopping-cart" /> -->
-      <i class="fas fa-shopping-cart"></i>
-      Giỏ hàng
-    </a>
-    <div class="notification">
-      <div class="notification-message">
-        Giỏ hàng của bạn đang trống
-        <a class="red" href="../index.html">Tiếp tục mua hàng</a>
+    <div class="search">
+      <input type="search" placeholder="Tìm kiếm... " />
+      <!-- <AiOutlineSearch class="fa-search" /> -->
+      <i class="fas fa-search"></i>
+    </div>
+
+    <div class="hotline">
+      <img class="img-hotline" src="/images/hotline.webp" alt="hotline" />
+      <div class="hotline-phoneNumber">
+        <p class="hotline-text">Hotline:</p>
+        <a class="hotline-tel" href="tel:0987654321">0987654321</a>
+      </div>
+    </div>
+
+    <div class="shopping-cart">
+      <a class="shopping-cart-container" href="#">
+        <!-- <FaShoppingCart class="fa-shopping-cart" /> -->
+        <i class="fas fa-shopping-cart"></i>
+        Giỏ hàng
+      </a>
+      <div class="notification">
+        <div class="notification-message">
+          Giỏ hàng của bạn đang trống
+          <a class="red" href="/">Tiếp tục mua hàng</a>
+        </div>
       </div>
     </div>
   </div>
@@ -59,7 +64,7 @@
       </a>
     </li>
     <li class="nav-right">
-      <a href="../index.html" class="nav-right-container">
+      <a href="/" class="nav-right-container">
         <p class="nav-text">Trang chủ</p>
       </a>
     </li>

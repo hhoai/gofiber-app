@@ -3,7 +3,6 @@ package main
 import (
 	// "fmt"
 
-	"fiber-app/controller"
 	"fiber-app/database"
 	"fiber-app/database/migration"
 	"fiber-app/route"
@@ -30,20 +29,6 @@ func main() {
 	})
 
 	app.Static("/", "./public")
-
-	app.Get("/", controller.HomepageController(store))
-
-	app.Get("/logout", controller.LogoutController(store))
-
-	app.Get("/login", controller.LoginController(store))
-
-	app.Get("/signup", controller.SignupController(store))
-
-	app.Get("/information", controller.InformationController(store))
-
-	app.Post("/signup", controller.SignupPostController(store))
-
-	app.Post("/login", controller.LoginPostController(store))
 
 	// initial route
 	route.RouteInit(app)

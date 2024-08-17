@@ -15,7 +15,7 @@
     max-width: 1200px;
     margin: auto;
     .welcome-left {
-      float: left;
+      float: left;      
     }
     .welcome-log {
       display: flex;
@@ -32,12 +32,12 @@
     }
   }
 }
-
 //toolbar
 .header-container {
   // background-color: $color-white;
   padding: 0px 15px;
   max-width: 1200px;
+  width: 1200px;
   height: 113px;
   margin: auto;
   padding-top: 15px;
@@ -161,7 +161,6 @@
     }
   }
 }
-
 // navigation
 .nav-header {
   height: 45px;
@@ -259,13 +258,61 @@
 
 
 .login-container {
-  max-width: 1200px;
   display: flex;
   justify-content: center;
   .login-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    .text-info {
+      text-align: center;
+      color: #CE0021 !important;
+    }
+    form {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 500px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    // Label và Input
+    label {
+      margin-bottom: 8px;
+      font-weight: bold;      
+    }
+    
+    input[type="text"],
+    input[type="password"] {
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      outline: none;
+    
+      &:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+      }
+    }
+    
+    // Button
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      background-color: #CE0021;
+      color: #ffffff;
+      font-size: 16px;
+      cursor: pointer;
+    
+      &:hover {
+        opacity: 0.8;
+      }
+    }
   }
 }
 

@@ -15,6 +15,15 @@ type UserEntity struct {
 	Role     int    `json:"role" gorm:"default:1"`
 }
 
+type Account struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Email    string `json:"email"`
+	Address  string `json:"address"`
+	Phone    string `json:"phone"`
+	Role     int    `json:"role" gorm:"default:1"`
+}
+
 func HashPassword(user *UserEntity, password string) error {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
