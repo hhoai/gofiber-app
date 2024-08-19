@@ -18,6 +18,7 @@
       <input type="phone" id="phone" name="phone" value="{{.Phone}}"/>
       <span class="phone-error red"></span>
       <br />
+      <input type="hidden" id="accountID" value="{{.id}}">
       <button type="submit">Cập nhật tài khoản</button>
     </form>
   </div>
@@ -38,7 +39,7 @@
       // Lấy dữ liệu biểu mẫu
       var formData = $(this).serialize();
       $.ajax({
-        url: "/updateAccount/{{.ID}}",
+        url: "/updateAccount/" + $('#accountID').val(),
         method: "PUT",
         data: formData,
       })

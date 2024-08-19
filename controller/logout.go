@@ -10,5 +10,5 @@ func LogoutController(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
 	sess.Destroy()
-	return c.Redirect("/")
+	return c.Redirect("/login")
 }

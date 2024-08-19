@@ -3,7 +3,6 @@ package controller
 import (
 	"fiber-app/database"
 	"fiber-app/model/entity"
-	"log"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
@@ -42,13 +41,13 @@ func LoginPostController(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
-	log.Println(existingAccount.Address + "login")
 
 	sess.Set("username", existingAccount.Name)
 	sess.Set("email", existingAccount.Email)
 	sess.Set("password", existingAccount.Password)
 	sess.Set("phone", existingAccount.Phone)
 	sess.Set("address", existingAccount.Address)
+	sess.Set("role", existingAccount.Role)
 
 	if err := sess.Save(); err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())

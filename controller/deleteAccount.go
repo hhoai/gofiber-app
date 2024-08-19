@@ -9,15 +9,24 @@ import (
 )
 
 func DeleteController(c *fiber.Ctx) error {
-	var p entity.UserEntity
-
-	id := c.Params("id")
-
-	err := database.DB.Delete(&p, "id = ?", id).Error
-
+	sess, err := store.Get(c)
 	if err != nil {
-		log.Println(err)
+		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
 
-	return c.Redirect("/admin")
+	role := sess.Get("role")
+	if role == 2 {
+		var p entity.UserEntity
+
+		id := c.Params("id")
+
+		err := database.DB.Delete(&p, "id = ?", id).Error
+
+		if err != nil {
+			log.Println(err)
+		}
+
+		return c.Redirect("/admin")
+	}
+	return c.Redirect("/login")
 }
