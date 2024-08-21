@@ -1,0 +1,43 @@
+
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+
+  .admin-content {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 900px;
+
+    a {
+      color: #ffffff;
+      background-color: #CE0021;
+      padding: 10px;
+      border-radius: 4px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 14px;
+      width: 48%;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+    table {
+      margin-top: 40px;
+      width: 100%;
+    }
+    table, th, td {
+      border: 1px solid #000;
+    }
+    th, td {
+      padding: 10px 5px;
+    }
+    :last-child(td) {
+      text-align: center;
+    }
+  }
+}

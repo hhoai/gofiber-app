@@ -9,7 +9,7 @@ import (
 
 func RunMigration() {
 	err := database.DB.AutoMigrate(&entity.UserEntity{})
-
+	database.DB.AutoMigrate(&entity.Account{})
 	if err != nil {
 		log.Println(err)
 	}

@@ -1,25 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link href="./output.css" rel="stylesheet">
-  </head>
-  <body>
-    <h1 class="text-red-600">{{.Title}}</h1>
+<div class="login-container">
+  <div class="login-content">
+    <h1 class="text-info">{{.Title}}</h1>
 
     <form action="/login" method="post">
-      <label for="username">Username</label>
+      <label for="username">Tên đăng nhập</label>
       <input type="text" id="username" name="username" required />
       <br />
-      <label for="password">Password</label>
+      <label for="password">Mật khẩu</label>
       <input type="password" id="password" name="password" required />
       <br />
-      <button type="submit">Login</button>
+      <button type="submit">Đăng nhập</button>
+      <a
+        style="
+          text-align: right;
+          margin-top: 10px;
+          color: #ce0021;
+          text-decoration: underline;
+        "
+        href="/signup"
+        >Đăng ký</a
+      >
     </form>
-
-    <a href="/signup">Signup</a>
-  </body>
-  
-</html>
+  </div>
+</div>

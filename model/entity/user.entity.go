@@ -6,8 +6,18 @@ import (
 )
 
 type UserEntity struct {
-	ID       uint   `json:"id" gorm:"primaryKey;autoIncrement"`
-	Name     string `json:"name"`
+	ID        uint   `json:"id" gorm:"primaryKey;autoIncrement"`
+	Name      string `json:"name"`
+	Password  string `json:"password"`
+	Email     string `json:"email"`
+	Address   string `json:"address"`
+	Phone     string `json:"phone"`
+	Role      int    `json:"role" gorm:"default:1"`
+	Sessionid int    `json:"sessionid"`
+}
+
+type Account struct {
+	Username string `json:"username"`
 	Password string `json:"password"`
 	Email    string `json:"email"`
 	Address  string `json:"address"`

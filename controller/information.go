@@ -1,8 +1,36 @@
 package controller
 
 import (
-	// "github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/session"
+	"fiber-app/shared"
+	"log"
+
+	"github.com/gofiber/fiber/v2"
 )
 
-var store *session.Store
+func InformationController(c *fiber.Ctx) error {
+
+	sess, err := shared.Store.Get(c)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+	}
+
+	// Kiểm tra người dùng đã đăng nhập chưa
+	username := sess.Get("username")
+	if username == nil {
+		return c.Redirect("/login")
+	}
+
+	email := sess.Get("email")
+	phone := sess.Get("phone")
+	address := sess.Get("address")
+
+	log.Println(address)
+	// Tạo dữ liệu để truyền vào template
+	data := fiber.Map{
+		"Username": username,
+		"Email":    email,
+		"Phone":    phone,
+		"Address":  address,
+	}
+	return c.Render("information", data, "layouts/main")
+}

@@ -3,27 +3,23 @@
     <h1 style="font-size: 2.5rem; margin-bottom: 9px">{{.Title}}</h1>
     <form id="form">
       <label for="username">Tên đăng nhập</label>
-      <input type="text" id="username" name="username" />
+      <input type="text" id="username" name="username" value="{{.Username}}"/>
       <span class="username-error red"></span>
       <br />
       <label for="email">Email</label>
-      <input type="email" id="email" name="email" />
+      <input type="email" id="email" name="email" value="{{.Email}}"/>
       <span class="email-error red"></span>
       <br />
       <label for="address">Địa chỉ</label>
-      <input type="address" id="address" name="address" />
+      <input type="address" id="address" name="address" value="{{.Address}}"/>
       <span class="address-error red"></span>
       <br />
       <label for="phone">Số điện thoại</label>
-      <input type="phone" id="phone" name="phone" />
+      <input type="phone" id="phone" name="phone" value="{{.Phone}}"/>
       <span class="phone-error red"></span>
       <br />
-      <label for="password">Mật khẩu</label>
-      <input type="password" id="password" name="password" />
-      <span class="password-error red"></span>
-      <br />
-      <button type="submit">Đăng kí</button>
-      <a href="/login">Đăng nhập</a>
+      <input type="hidden" id="accountID" value="{{.id}}">
+      <button type="submit">Cập nhật tài khoản</button>
     </form>
   </div>
 </div>
@@ -32,7 +28,6 @@
   $(document).ready(function () {
     const clearErrorMessage = () => {
       $(".username-error").text("");
-      $(".password-error").text("");
       $(".email-error").text("");
       $(".phone-error").text("");
       $(".address-error").text("");
@@ -44,12 +39,12 @@
       // Lấy dữ liệu biểu mẫu
       var formData = $(this).serialize();
       $.ajax({
-        url: "/signup",
-        method: "POST",
+        url: "/updateAccount/" + $('#accountID').val(),
+        method: "PUT",
         data: formData,
       })
         .done(function (response) {
-          window.location.href = "/information";
+          window.location.href = "/admin";
           console.log("Success:", response);
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
@@ -59,11 +54,10 @@
           console.log(jqXHR);
           clearErrorMessage();
           let responseJSON = jqXHR.responseJSON;
-          $(".username-error").text(responseJSON.NameError);
-          $(".password-error").text(responseJSON.PasswordError);
-          $(".email-error").text(responseJSON.EmailError);
-          $(".phone-error").text(responseJSON.PhoneError);
-          $(".address-error").text(responseJSON.AddressError);
+          // $(".username-error").text(responseJSON.NameError);
+          // $(".email-error").text(responseJSON.EmailError);
+          // $(".phone-error").text(responseJSON.PhoneError);
+          // $(".address-error").text(responseJSON.AddressError);
         });
     });
   });

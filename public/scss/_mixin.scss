@@ -1,0 +1,14 @@
+@mixin upperCase {
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+@mixin colorVsFontWelcome {
+  font-size: 12px;
+  color: #b0b0b0;
+}
+@mixin center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

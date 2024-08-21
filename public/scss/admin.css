@@ -1,0 +1,40 @@
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+.admin-container .admin-content {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 900px;
+}
+.admin-container .admin-content a {
+  color: #ffffff;
+  background-color: #CE0021;
+  padding: 10px;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  width: 48%;
+}
+.admin-container .admin-content a:hover {
+  opacity: 0.8;
+}
+.admin-container .admin-content table {
+  margin-top: 40px;
+  width: 100%;
+}
+.admin-container .admin-content table, .admin-container .admin-content th, .admin-container .admin-content td {
+  border: 1px solid #000;
+}
+.admin-container .admin-content th, .admin-container .admin-content td {
+  padding: 10px 5px;
+}
+.admin-container .admin-content :last-child(td) {
+  text-align: center;
+}/*# sourceMappingURL=admin.css.map */
