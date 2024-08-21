@@ -15,7 +15,7 @@ import (
 
 	// "fmt"
 	"regexp"
-	"strings"
+	"strings"	
 )
 
 var store *session.Store
@@ -92,7 +92,8 @@ func main() {
 	app := fiber.New(fiber.Config{
 		Views: engine,
 	})
-	app.Static("/styles", "./styles")
+
+	app.Static("/assets", "./assets")
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.Render("index", fiber.Map{
