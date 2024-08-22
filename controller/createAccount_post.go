@@ -13,9 +13,11 @@ func CreateAccountPostController(c *fiber.Ctx) error {
 	var p entity.Account
 
 	if err := c.BodyParser(&p); err != nil {
+		log.Println(err.Error())
 		return err
 	}
 
+	log.Println(p.RoleID)
 	nameError := validateUsername(p.Username)
 
 	errorsMessage := fiber.Map{
@@ -68,11 +70,20 @@ func CreateAccountPostController(c *fiber.Ctx) error {
 		Email:    p.Email,
 		Address:  p.Address,
 		Phone:    p.Phone,
+		RoleID:   p.RoleID,
 	}
 
 	if err := database.DB.Create(&newAccount).Error; err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
+
+	sess, err := store.Get(c)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+	}
+	username := sess.Get("username")
+
+	log.Println(username, "create", p.RoleID)
 
 	return c.Redirect("/admin")
 	// ...

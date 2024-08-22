@@ -12,7 +12,7 @@ type UserEntity struct {
 	Email    string `json:"email"`
 	Address  string `json:"address"`
 	Phone    string `json:"phone"`
-	Role     int    `json:"role" gorm:"default:1"`
+	RoleID   int    `json:"role" gorm:"default:1"`
 }
 
 type Account struct {
@@ -21,7 +21,17 @@ type Account struct {
 	Email    string `json:"email"`
 	Address  string `json:"address"`
 	Phone    string `json:"phone"`
-	Role     int    `json:"role" gorm:"default:1"`
+	RoleID   int    `json:"role_id"`
+}
+
+type UserWithRowNumber struct {
+	RowNumber int
+	ID        int
+	Name      string
+	Email     string
+	Address   string
+	Phone     string
+	RoleName  string
 }
 
 func HashPassword(user *UserEntity, password string) error {

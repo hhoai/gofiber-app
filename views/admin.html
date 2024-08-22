@@ -3,7 +3,7 @@
     <a class="create" href="/createAccount">Thêm tài khoản</a>
     <table>
      <tr>
-        <th>ID</th>
+        <th>STT</th>
         <th>Username</th>
         <th>Email</th>
         <th>Address</th>
@@ -13,12 +13,12 @@
      </tr>
       {{range .Users}}
       <tr>
-        <td>{{.ID}}</td>
+        <td>{{.RowNumber}}</td>
         <td>{{.Name}}</td>
         <td>{{.Email}}</td>
         <td>{{.Address}}</td>
         <td>{{.Phone}}</td>
-        <td>{{.Role}}</td>
+        <td>{{.RoleName}}</td>
         <td>
           <a href="/updateAccount/{{.ID}}">Update</a>
           <a href="/deleteAccount/{{.ID}}">Delete</a>

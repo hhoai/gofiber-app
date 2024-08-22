@@ -39,7 +39,8 @@
       // Lấy dữ liệu biểu mẫu
       var formData = $(this).serialize();
       $.ajax({
-        url: "/updateAccount/" + $('#accountID').val(),
+        // url: "/updateAccount/" + $('#accountID').val(),
+        url: "/updateAccount/{{.id}}",
         method: "PUT",
         data: formData,
       })

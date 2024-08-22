@@ -22,6 +22,21 @@
       <input type="password" id="password" name="password" />
       <span class="password-error red"></span>
       <br />
+      <label>Vai trò</label>
+      <select name="role_id" id="role_id">
+        {{range .Role}}
+        <option value="{{.ID}}">{{.Role}}</option>
+        {{end}}
+      </select>
+      <br>
+      <!-- <label>Quyền hạn</label>
+      {{range .Permission}}
+      <div class="permission">
+        <input type="checkbox" name="{{.ID}}" value="{{.Permission}}"/>
+        <label style="font-weight: normal;" for="{{.ID}}">{{.Permission}}</label>
+      </div>
+      {{end}}
+      <br> -->
       <button type="submit">Tạo tài khoản</button>
     </form>
   </div>
@@ -49,14 +64,16 @@
         data: formData,
       })
         .done(function (response) {
-          window.location.href = "/admin";
+          // window.location.href = "/admin";
           console.log("Success:", response);
+          console.log(formData)
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
           // This function runs if the request fails
           console.log("Request failed:", textStatus);
           console.error("Error:", errorThrown);
           console.log(jqXHR);
+          console.log(formData)
           clearErrorMessage();
           let responseJSON = jqXHR.responseJSON;
           $(".username-error").text(responseJSON.NameError);

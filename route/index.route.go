@@ -11,6 +11,10 @@ func RouteInit(app *fiber.App) {
 	// r.Get("/user", handler.UserHandlerGetAll)
 	app.Get("/information", controller.InformationController)
 
+	app.Get("/signup", controller.SignupController)
+
+	app.Post("/signup", controller.SignupPostController)
+
 	app.Get("/logout", controller.LogoutController)
 
 	app.Get("/login", controller.LoginController)

@@ -302,7 +302,9 @@
           box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
         }
       }
-      
+      .permission {
+        display: flex;
+      }
       .red {
         color: #ce0021;
         font-size: 21px;

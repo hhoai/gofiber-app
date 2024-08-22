@@ -26,7 +26,16 @@ func DeleteController(c *fiber.Ctx) error {
 			log.Println(err)
 		}
 
+		sess, err := store.Get(c)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+		}
+		username := sess.Get("username")
+
+		log.Println(username, "delete")
+
 		return c.Redirect("/admin")
 	}
+
 	return c.Redirect("/login")
 }

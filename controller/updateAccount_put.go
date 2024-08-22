@@ -10,8 +10,8 @@ import (
 )
 
 func UpdateAccountPutController(c *fiber.Ctx) error {
-	var p entity.Account
 	id := c.Params("id")
+	var p entity.Account
 
 	if err := c.BodyParser(&p); err != nil {
 		return err
@@ -20,11 +20,10 @@ func UpdateAccountPutController(c *fiber.Ctx) error {
 	nameError := validateUsername(p.Username)
 
 	errorsMessage := fiber.Map{
-		"NameError":     nameError,
-		"PasswordError": validatePassword(p.Password),
-		"EmailError":    validateEmail(p.Email),
-		"AddressError":  validateAddress(p.Address),
-		"PhoneError":    validatePhoneNumber(p.Phone),
+		"NameError":    nameError,
+		"EmailError":   validateEmail(p.Email),
+		"AddressError": validateAddress(p.Address),
+		"PhoneError":   validatePhoneNumber(p.Phone),
 	}
 
 	var existingAccount entity.UserEntity
@@ -42,25 +41,25 @@ func UpdateAccountPutController(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(resultFindByEmail.Error.Error())
 	}
 
-	if validateUsername(p.Username) != "" || validatePassword(p.Password) != "" || validateEmail(p.Email) != "" || validatePhoneNumber(p.Phone) != "" || validateAddress(p.Address) != "" {
+	if validateUsername(p.Username) != "" || validateEmail(p.Email) != "" || validatePhoneNumber(p.Phone) != "" || validateAddress(p.Address) != "" {
 		return c.Status(fiber.StatusConflict).JSON(errorsMessage)
 	}
 
-	if resultFindByUserName.Error == nil {
-		errorsMessage := fiber.Map{
-			"NameError": "UserName already exists",
-		}
-		// Nếu không có lỗi và tìm thấy bản ghi, trả về lỗi trùng lặp
-		return c.Status(fiber.StatusConflict).JSON(errorsMessage)
-	}
+	// if resultFindByUserName.Error == nil {
+	// 	errorsMessage := fiber.Map{
+	// 		"NameError": "UserName already exists",
+	// 	}
+	// 	// Nếu không có lỗi và tìm thấy bản ghi, trả về lỗi trùng lặp
+	// 	return c.Status(fiber.StatusConflict).JSON(errorsMessage)
+	// }
 
-	if resultFindByEmail.Error == nil {
-		errorsMessage := fiber.Map{
-			"EmailError": "Email already exists",
-		}
-		// Nếu không có lỗi và tìm thấy bản ghi, trả về lỗi trùng lặp
-		return c.Status(fiber.StatusConflict).JSON(errorsMessage)
-	}
+	// if resultFindByEmail.Error == nil {
+	// 	errorsMessage := fiber.Map{
+	// 		"EmailError": "Email already exists",
+	// 	}
+	// 	// Nếu không có lỗi và tìm thấy bản ghi, trả về lỗi trùng lặp
+	// 	return c.Status(fiber.StatusConflict).JSON(errorsMessage)
+	// }
 
 	var account entity.UserEntity
 	rs := database.DB.First(&account, "id = ?", id)
@@ -78,16 +77,24 @@ func UpdateAccountPutController(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
 
-	var users []entity.UserEntity
-
-	err := database.DB.Find(&users).Error
+	sess, err := store.Get(c)
 	if err != nil {
-		log.Println(err)
+		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
+	username := sess.Get("username")
 
-	user := fiber.Map{
-		"Users": users,
-	}
-	return c.Render("admin", user, "layouts/main")
+	log.Println(username, "update")
+	// var users []entity.UserEntity
+
+	// err := database.DB.Find(&users).Error
+	// if err != nil {
+	// 	log.Println(err)
+	// }
+
+	// user := fiber.Map{
+	// 	"Users": users,
+	// }
+	// return c.Render("admin", user, "layouts/main")
+	return c.Redirect("/admin")
 	// ...
 }
