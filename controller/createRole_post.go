@@ -49,29 +49,39 @@ func CreateRolePostController(c *fiber.Ctx) error {
 	log.Println("permissions", permissions)
 
 	var newRole entity.Role
-	if err := database.DB.Where("role = ?", p.Role).Find(&newRole).Error; err != nil {
+	if err := database.DB.Where("role = ?", p.Role).First(&newRole).Error; err != nil {
 		log.Println(err)
 	}
 
 	for _, permission := range permissions {
 		log.Println("permission: ", permission)
-		var per entity.Permission
-		if err := database.DB.Where("permission = ?", permission).Find(&per).Error; err != nil {
-			log.Println(err)
-		} else {
-			rolPer := entity.RolePermission{
-				RoleID:       newRole.ID,
-				PermissionID: per.ID,
-			}
-			if err := database.DB.Create(rolPer).Error; err != nil {
-				log.Println(err)
-			}
-			log.Println(rolPer)
+		rolPer := entity.RolePermission{
+			RoleID:       newRole.ID,
+			PermissionID: permission,
 		}
+		if err := database.DB.Create(rolPer).Error; err != nil {
+			log.Println(err)
+		}
+		log.Println(rolPer)
+
 	}
 
-	log.Println("create", p.Role)
+	var role []entity.RolePermissionWithRowNumber
 
-	return c.Redirect("/role")
+	result := database.DB.Table("roles").
+		Select("ROW_NUMBER() OVER (ORDER BY roles.id) AS RowNumber, roles.role AS role_name, id").
+		Find(&role)
+
+	if result.Error != nil {
+		log.Println(result.Error)
+		return c.Status(fiber.StatusInternalServerError).SendString(result.Error.Error())
+	}
+
+	log.Println(role)
+	// roles :=
+
+	return c.Render("role", fiber.Map{
+		"Roles": role,
+	}, "layouts/main")
 	// ...
 }

@@ -9,7 +9,7 @@
       <label>Quyền hạn</label>
       {{range .Permission}}
       <div class="permission">
-        <input type="checkbox" id="permission" name="permission" value="{{.Permission}}"/>
+        <input type="checkbox" id="permission" name="permission" value="{{.ID}}"/>
         <label style="font-weight: normal;">{{.Permission}}</label>
       </div>
       {{end}}
@@ -57,7 +57,7 @@
           console.log(formData)
           clearErrorMessage();
           let responseJSON = jqXHR.responseJSON;
-          $(".role-error").text(responseJSON.RoleNameError);
+          // $(".role-error").text(responseJSON.RoleNameError);
          });
     });
   });
