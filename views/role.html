@@ -1,0 +1,25 @@
+<div class="admin-container">
+  <div class="admin-content">
+    <a class="create" href="/createRole">Thêm vai trò</a>
+    <table>
+     <tr>
+        <th>STT</th>
+        <th>Vai trò</th>
+        <!-- <th>Quyền</th> -->
+        <th></th>
+     </tr>
+      {{range .Roles}}
+      <tr>
+        <td>{{.RowNumber}}</td>
+        <td>{{.RoleName}}</td>
+        <!-- <td>{{.PermissionName}}</td> -->
+        <td>
+          <a href="/updateRole/{{.ID}}">Cập nhật</a>
+          <a href="/deleteRole/{{.ID}}">xóa</a>
+        </td>
+      </tr>
+      {{end}}
+    </table>
+    <a href="/admin">Quay lại</a>
+  </div>
+</div>

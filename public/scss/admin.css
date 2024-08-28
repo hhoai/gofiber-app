@@ -27,6 +27,7 @@
 }
 .admin-container .admin-content table {
   margin-top: 40px;
+  margin-bottom: 40px;
   width: 100%;
 }
 .admin-container .admin-content table, .admin-container .admin-content th, .admin-container .admin-content td {

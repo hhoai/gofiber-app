@@ -2,31 +2,21 @@
   <div class="signup-content">
     <h1 style="font-size: 2.5rem; margin-bottom: 9px">{{.Title}}</h1>
     <form id="form">
-      <label for="username">Tên đăng nhập</label>
-      <input type="text" id="username" name="username" value="{{.Username}}"/>
-      <span class="username-error red"></span>
+      <label for="role">Vai trò</label>
+      <input type="text" id="role" name="role" value="{{.Role}}"/>
+      <span class="role-error red"></span>
       <br />
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" value="{{.Email}}"/>
-      <span class="email-error red"></span>
-      <br />
-      <label for="address">Địa chỉ</label>
-      <input type="address" id="address" name="address" value="{{.Address}}"/>
-      <span class="address-error red"></span>
-      <br />
-      <label for="phone">Số điện thoại</label>
-      <input type="phone" id="phone" name="phone" value="{{.Phone}}"/>
-      <span class="phone-error red"></span>
-      <br />
-      <label>Vai trò</label>
-      <select name="role_id" id="role_id">
-        {{range .Roles}}
-        <option value="{{.ID}}" {{if eq .ID $.RoleID}}selected{{end}}>{{.Role}}</option>
-        {{end}}
-      </select>
+      <label>Quyền hạn</label>
+      {{range .Permission}}
+      <div class="permission">
+        <input type="checkbox" id="permission" name="permission" value="{{.ID}}" {{if isPermissionSelected $.PermissionID .ID}}checked{{end}}/>
+        <label style="font-weight: normal;">{{.Permission}}</label>
+      </div>
+      {{end}}
+      <span class="permission-error red"></span>
       <br>
-      <input type="hidden" id="accountID" value="{{.id}}">
-      <button type="submit">Cập nhật tài khoản</button>
+      <!-- <input type="hidden" id="accountID" value="{{.id}}"> -->
+      <button type="submit">Cập nhật</button>
     </form>
   </div>
 </div>
@@ -34,10 +24,8 @@
 <script>
   $(document).ready(function () {
     const clearErrorMessage = () => {
-      $(".username-error").text("");
-      $(".email-error").text("");
-      $(".phone-error").text("");
-      $(".address-error").text("");
+      $(".role-error").text("");
+      $(".permission-error").text("");
     };
 
     $("#form").on("submit", function (event) {
@@ -47,13 +35,14 @@
       var formData = $(this).serialize();
       $.ajax({
         // url: "/updateAccount/" + $('#accountID').val(),
-        url: "/updateAccount/{{.id}}",
+        url: "/updateRole/{{.id}}",
         method: "PUT",
         data: formData,
       })
         .done(function (response) {
-          window.location.href = "/admin";
+          window.location.href = "/role";
           console.log("Success:", response);
+          console.log(formData)
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
           // This function runs if the request fails

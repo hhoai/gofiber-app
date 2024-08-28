@@ -6,22 +6,23 @@ import (
 )
 
 type UserEntity struct {
-	ID       uint   `json:"id" gorm:"primaryKey;autoIncrement"`
-	Name     string `json:"name"`
-	Password string `json:"password"`
-	Email    string `json:"email"`
-	Address  string `json:"address"`
-	Phone    string `json:"phone"`
-	RoleID   int    `json:"role" gorm:"default:1"`
+	ID        uint   `json:"id" gorm:"primaryKey;autoIncrement"`
+	Name      string `json:"name"`
+	Password  string `json:"password"`
+	Email     string `json:"email"`
+	Address   string `json:"address"`
+	Phone     string `json:"phone"`
+	RoleID    int    `json:"role" gorm:"default:1"`
+	SessionID string
 }
 
 type Account struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Email    string `json:"email"`
-	Address  string `json:"address"`
-	Phone    string `json:"phone"`
-	RoleID   int    `json:"role_id"`
+	Username string `form:"username"`
+	Password string `form:"password"`
+	Email    string `form:"email"`
+	Address  string `form:"address"`
+	Phone    string `form:"phone"`
+	RoleID   int    `form:"role_id"`
 }
 
 type UserWithRowNumber struct {
@@ -32,6 +33,19 @@ type UserWithRowNumber struct {
 	Address   string
 	Phone     string
 	RoleName  string
+}
+
+type PermissionWithRowNumber struct {
+	RowNumber  int
+	ID         int
+	Permission string
+}
+
+type RolePermissionWithRowNumber struct {
+	RowNumber      int
+	ID             int
+	RoleName       string
+	PermissionName string
 }
 
 func HashPassword(user *UserEntity, password string) error {

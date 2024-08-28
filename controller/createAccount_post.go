@@ -77,7 +77,7 @@ func CreateAccountPostController(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
 
-	sess, err := store.Get(c)
+	sess, err := Store.Get(c)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}

@@ -2,31 +2,20 @@
   <div class="signup-content">
     <h1 style="font-size: 2.5rem; margin-bottom: 9px">{{.Title}}</h1>
     <form id="form">
-      <label for="username">Tên đăng nhập</label>
-      <input type="text" id="username" name="username" value="{{.Username}}"/>
-      <span class="username-error red"></span>
+      <label for="role">Vai trò</label>
+      <input type="text" id="role"name="role" />
+      <span class="role-error red"></span>
       <br />
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" value="{{.Email}}"/>
-      <span class="email-error red"></span>
-      <br />
-      <label for="address">Địa chỉ</label>
-      <input type="address" id="address" name="address" value="{{.Address}}"/>
-      <span class="address-error red"></span>
-      <br />
-      <label for="phone">Số điện thoại</label>
-      <input type="phone" id="phone" name="phone" value="{{.Phone}}"/>
-      <span class="phone-error red"></span>
-      <br />
-      <label>Vai trò</label>
-      <select name="role_id" id="role_id">
-        {{range .Roles}}
-        <option value="{{.ID}}" {{if eq .ID $.RoleID}}selected{{end}}>{{.Role}}</option>
-        {{end}}
-      </select>
+      <label>Quyền hạn</label>
+      {{range .Permission}}
+      <div class="permission">
+        <input type="checkbox" id="permission" name="permission" value="{{.Permission}}"/>
+        <label style="font-weight: normal;">{{.Permission}}</label>
+      </div>
+      {{end}}
+      <span class="permission-error red"></span>
       <br>
-      <input type="hidden" id="accountID" value="{{.id}}">
-      <button type="submit">Cập nhật tài khoản</button>
+      <button type="submit">Thêm</button>
     </form>
   </div>
 </div>
@@ -34,10 +23,7 @@
 <script>
   $(document).ready(function () {
     const clearErrorMessage = () => {
-      $(".username-error").text("");
-      $(".email-error").text("");
-      $(".phone-error").text("");
-      $(".address-error").text("");
+      $(".role-error").text("");
     };
 
     $("#form").on("submit", function (event) {
@@ -46,27 +32,33 @@
       // Lấy dữ liệu biểu mẫu
       var formData = $(this).serialize();
       $.ajax({
-        // url: "/updateAccount/" + $('#accountID').val(),
-        url: "/updateAccount/{{.id}}",
-        method: "PUT",
+        url: "/createRole",
+        method: "POST",
         data: formData,
+        // data: {
+        //   "username": $("#username").val(),
+        //   "password": $("#password").val(),
+        //   "email": $("#email").val(),
+        //   "phone": $("#phone").val(),
+        //   "address": $("#address").val(),
+        //   "role": $("#role_id").val(),
+        // },
       })
         .done(function (response) {
-          window.location.href = "/admin";
+          window.location.href = "/role";
           console.log("Success:", response);
+          console.log(formData)
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
           // This function runs if the request fails
           console.log("Request failed:", textStatus);
           console.error("Error:", errorThrown);
           console.log(jqXHR);
+          console.log(formData)
           clearErrorMessage();
           let responseJSON = jqXHR.responseJSON;
-          // $(".username-error").text(responseJSON.NameError);
-          // $(".email-error").text(responseJSON.EmailError);
-          // $(".phone-error").text(responseJSON.PhoneError);
-          // $(".address-error").text(responseJSON.AddressError);
-        });
+          $(".role-error").text(responseJSON.RoleNameError);
+         });
     });
   });
 </script>

@@ -29,14 +29,7 @@
         {{end}}
       </select>
       <br>
-      <!-- <label>Quyền hạn</label>
-      {{range .Permission}}
-      <div class="permission">
-        <input type="checkbox" name="{{.ID}}" value="{{.Permission}}"/>
-        <label style="font-weight: normal;" for="{{.ID}}">{{.Permission}}</label>
-      </div>
-      {{end}}
-      <br> -->
+      
       <button type="submit">Tạo tài khoản</button>
     </form>
   </div>
@@ -62,9 +55,17 @@
         url: "/createAccount",
         method: "POST",
         data: formData,
+        // data: {
+        //   "username": $("#username").val(),
+        //   "password": $("#password").val(),
+        //   "email": $("#email").val(),
+        //   "phone": $("#phone").val(),
+        //   "address": $("#address").val(),
+        //   "role": $("#role_id").val(),
+        // },
       })
         .done(function (response) {
-          // window.location.href = "/admin";
+          window.location.href = "/admin";
           console.log("Success:", response);
           console.log(formData)
         })

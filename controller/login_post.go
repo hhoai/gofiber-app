@@ -38,25 +38,25 @@ func LoginPostController(c *fiber.Ctx) error {
 	result = database.DB.First(&existingAccount, existingAccount.Name)
 
 	// Lưu thông tin người dùng vào session
-	sess, err := store.Get(c)
+	sess, err := Store.Get(c)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
 
+	existingAccount.SessionID = p.Username + "_session"
 	sess.Set("username", existingAccount.Name)
-	sess.Set("email", existingAccount.Email)
-	sess.Set("password", existingAccount.Password)
-	sess.Set("phone", existingAccount.Phone)
-	sess.Set("address", existingAccount.Address)
-	sess.Set("role", existingAccount.RoleID)
+	sess.Set("login_success", "login success")
+	sess.Set("sessionID", existingAccount.SessionID)
 
-	log.Println(sess.Get("username"), "login")
+	database.DB.Model(&entity.UserEntity{}).Where("name = ?", existingAccount.Name).Update("SessionID", existingAccount.SessionID)
+
+	log.Println(existingAccount.SessionID)
 
 	if err := sess.Save(); err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
 
-	if existingAccount.RoleID == 2 {
+	if existingAccount.RoleID != 1 {
 		return c.Redirect("/admin")
 	}
 	return c.Redirect("/information")

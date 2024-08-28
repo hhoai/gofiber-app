@@ -2,14 +2,12 @@ package controller
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/session"
 )
 
 func LoginController(c *fiber.Ctx) error {
 	// Kiểm tra người dùng đã đăng nhập chưa
-	store = session.New()
 
-	sess, err := store.Get(c)
+	sess, err := Store.Get(c)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}

@@ -1,43 +1,3 @@
-// package controller
-
-// import (
-// 	"fiber-app/database"
-// 	"fiber-app/model/entity"
-// 	"log"
-
-// 	"github.com/gofiber/fiber/v2"
-// )
-
-// func AdminController(c *fiber.Ctx) error {
-
-// 	sess, err := store.Get(c)
-// 	if err != nil {
-// 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
-// 	}
-
-// 	role := sess.Get("role")
-
-// 	if role == 2 {
-// 		var users []entity.UserEntity
-// 		// Truy vấn tất cả các bản ghi
-// 		result := database.DB.Find(&users)
-// 		if result.Error != nil {
-// 			log.Println(result.Error)
-// 		}
-
-// 		err := database.DB.Find(&users).Error
-// 		if err != nil {
-// 			log.Println(err)
-// 		}
-
-// 		user := fiber.Map{
-// 			"Users": users,
-// 		}
-// 		return c.Render("admin", user, "layouts/main")
-// 	}
-// 	return c.Redirect("/information")
-// }
-
 package controller
 
 import (
@@ -49,50 +9,41 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// func GetSessionUser (c fiber.Ctx) entity.UserEntity {
-// 	var user entity.UserEntity
-// 	var rolPer[] entity.Permission
-// 	sess,_ := session.Get(c)
-// 	username := sess. Get ("username")
-// 	if err := database.DB.Where("BINARY username = ?", username).First(&user). Error; err != nil {
-// 	database.OutputDebug("username not found in session")
-// 	}
-// 	if err:= database.DB.Model(&entity.RolePermission{}).
-// 	Joins("Permission").
-// 	Where("role_permission.role_id", user.RoleID).
-// 	Where("role_permission.permission_id")
-// 	database.OutputDebug("permission not found in check session"){
-// 	}
-// 	sess.Set("rolePermission", rolPer)
-// 	if err := sess.Save(); err != nil {
-// 	}
-// 	initializers. OutputDebug("Can not save session role permission in check session")
-// 	return user
-// 	}
+func GetSessionUser(c *fiber.Ctx) entity.UserEntity {
+	var user entity.UserEntity
+	var rolPer []entity.RolePermission
+
+	sess, _ := Store.Get(c)
+	username := sess.Get("username")
+
+	if err := database.DB.Where("name = ?", username).First(&user).Error; err != nil { // binary: phan biet chu hoa, chu thuong
+		log.Println("username not found in session")
+	}
+
+	// if err := database.DB.Model(&entity.RolePermission{}).Joins("INNER JOIN Permission ON role_permissions.permission_id = permissions.id").
+	// 	Select("permission_id").Where("role_id = ?", user.RoleID).
+	// 	Find(&rolPer).Error; err != nil {
+	// 	log.Println("permission not found in session")
+	// }
+
+	sess.Set("rolPermission", rolPer)
+
+	return user
+}
 
 func AdminController(c *fiber.Ctx) error {
 
-	sess, err := store.Get(c)
+	sess, err := Store.Get(c)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
 
-	role := sess.Get("role")
+	var user = GetSessionUser(c)
 
 	log.Println(sess.Get("username"), "admin")
 
-	if role == 2 {
+	if user.RoleID != 1 {
 		var users []entity.UserWithRowNumber
-
-		// Truy vấn SQL để lấy RowNumber
-		// sqlQuery := `
-		// 	SELECT ROW_NUMBER() OVER (ORDER BY id) AS RowNumber, id, name, email, address, phone, role_id
-		// 	FROM user_entities
-		// `
-
-		// sqlQuery := `SELECT ROW_NUMBER() OVER (ORDER BY u.id) AS RowNumber, u.id, u.name, u.email, u.address, u.phone, r.role AS RoleName
-		// 	FROM user_entities u
-		// 	JOIN roles r ON u.role_id = r.id `
 
 		result := database.DB.Table("user_entities").
 			Joins("INNER JOIN roles ON user_entities.role_id = roles.id").
@@ -109,7 +60,7 @@ func AdminController(c *fiber.Ctx) error {
 			"Users": users,
 		}
 
-		log.Println(user)
+		// log.Println(user)
 
 		return c.Render("admin", user, "layouts/main")
 	}

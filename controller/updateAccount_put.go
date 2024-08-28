@@ -72,29 +72,30 @@ func UpdateAccountPutController(c *fiber.Ctx) error {
 	account.Email = p.Email
 	account.Address = p.Address
 	account.Phone = p.Phone
+	account.RoleID = p.RoleID
 
 	if err := database.DB.Save(&account).Error; err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
 
-	sess, err := store.Get(c)
+	sess, err := Store.Get(c)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
 	username := sess.Get("username")
 
 	log.Println(username, "update")
-	// var users []entity.UserEntity
+	var users []entity.UserEntity
 
-	// err := database.DB.Find(&users).Error
-	// if err != nil {
-	// 	log.Println(err)
-	// }
+	err1 := database.DB.Find(&users).Error
+	if err1 != nil {
+		log.Println(err1)
+	}
 
-	// user := fiber.Map{
-	// 	"Users": users,
-	// }
-	// return c.Render("admin", user, "layouts/main")
-	return c.Redirect("/admin")
+	user := fiber.Map{
+		"Users": users,
+	}
+	return c.Render("admin", user, "layouts/main")
+	// return c.Redirect("/admin")
 	// ...
 }

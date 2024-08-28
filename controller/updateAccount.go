@@ -9,35 +9,32 @@ import (
 )
 
 func UpdateAccountController(c *fiber.Ctx) error {
-	sess, err := store.Get(c)
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+	var p entity.UserEntity
+
+	id := c.Params("id")
+
+	result := database.DB.First(&p, "id = ?", id)
+
+	if result.Error != nil {
+		log.Println(result.Error)
 	}
 
-	role := sess.Get("role")
+	var roles []entity.Role
 
-	if role == 2 {
-
-		var p entity.UserEntity
-
-		id := c.Params("id")
-
-		result := database.DB.First(&p, "id = ?", id)
-
-		if result.Error != nil {
-			log.Println(result.Error)
-		}
-
-		// Tạo dữ liệu để truyền vào template
-		data := fiber.Map{
-			"id":       id,
-			"Username": p.Name,
-			"Email":    p.Email,
-			"Phone":    p.Phone,
-			"Address":  p.Address,
-		}
-		return c.Render("updateAccount", data, "layouts/main")
-
+	rs := database.DB.Find(&roles)
+	if rs.Error != nil {
+		log.Println(rs.Error)
 	}
-	return c.Redirect("/login")
+
+	// Tạo dữ liệu để truyền vào template
+	data := fiber.Map{
+		"id":       id,
+		"Username": p.Name,
+		"Email":    p.Email,
+		"Phone":    p.Phone,
+		"Address":  p.Address,
+		"RoleID":   p.RoleID,
+		"Roles":    roles,
+	}
+	return c.Render("updateAccount", data, "layouts/main")
 }

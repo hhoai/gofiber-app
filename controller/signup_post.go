@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/session"
+
 	"gorm.io/gorm"
 
 	// "fmt"
@@ -15,7 +15,6 @@ import (
 )
 
 func validateUsername(username string) string {
-	store = session.New()
 
 	if strings.TrimSpace(username) == "" {
 		return "Username must not be empty!"
@@ -140,7 +139,7 @@ func SignupPostController(c *fiber.Ctx) error {
 	}
 
 	// Lưu thông tin người dùng vào session
-	sess, err := store.Get(c)
+	sess, err := Store.Get(c)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
