@@ -14,9 +14,12 @@ func CreateRoleController(c *fiber.Ctx) error {
 		log.Println(err)
 	}
 
+	sidebar := Sidebar(c)
+
 	data := fiber.Map{
-		"Title":      "Thêm vai trò",
-		"Permission": permission,
+		"Title":        "Thêm vai trò",
+		"Permission":   permission,
+		"SidebarItems": sidebar,
 	}
 
 	return c.Render("createRole", data, "layouts/main")

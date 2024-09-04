@@ -26,15 +26,18 @@ func UpdateAccountController(c *fiber.Ctx) error {
 		log.Println(rs.Error)
 	}
 
+	sidebar := Sidebar(c)
+
 	// Tạo dữ liệu để truyền vào template
 	data := fiber.Map{
-		"id":       id,
-		"Username": p.Name,
-		"Email":    p.Email,
-		"Phone":    p.Phone,
-		"Address":  p.Address,
-		"RoleID":   p.RoleID,
-		"Roles":    roles,
+		"id":           id,
+		"Username":     p.Name,
+		"Email":        p.Email,
+		"Phone":        p.Phone,
+		"Address":      p.Address,
+		"RoleID":       p.RoleID,
+		"SidebarItems": sidebar,
+		"Roles":        roles,
 	}
 	return c.Render("updateAccount", data, "layouts/main")
 }

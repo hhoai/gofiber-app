@@ -56,12 +56,15 @@ func UpdateRoleController(c *fiber.Ctx) error {
 		}
 	}
 
+	sidebar := Sidebar(c)
+
 	// Tạo dữ liệu để truyền vào template
 	data := fiber.Map{
 		"id":           id,
 		"Role":         p.Role,
 		"Permission":   permission,
 		"PermissionID": permissionID,
+		"SidebarItems": sidebar,
 	}
 
 	// tmpl := template.Must(template.New("").Funcs(template.FuncMap{

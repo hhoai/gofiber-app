@@ -16,8 +16,11 @@ func CreateAccountController(c *fiber.Ctx) error {
 		log.Println(result.Error)
 	}
 
+	sidebar := Sidebar(c)
+
 	data := fiber.Map{
-		"Role": roles,
+		"Role":         roles,
+		"SidebarItems": sidebar,
 	}
 
 	return c.Render("createAccount", data, "layouts/main")

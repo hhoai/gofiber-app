@@ -35,7 +35,7 @@ func LoginPostController(c *fiber.Ctx) error {
 		}
 	}
 
-	result = database.DB.First(&existingAccount, existingAccount.Name)
+	database.DB.First(&existingAccount, existingAccount.Name)
 
 	// Lưu thông tin người dùng vào session
 	sess, err := Store.Get(c)

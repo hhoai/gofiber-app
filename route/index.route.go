@@ -11,8 +11,6 @@ func RouteInit(app *fiber.App) {
 	// r.Get("/user", handler.UserHandlerGetAll)
 	app.Get("/information", IsAuthenticated, CheckSession, controller.InformationController)
 
-	app.Get("/signup", controller.SignupController)
-
 	app.Post("/signup", controller.SignupPostController)
 
 	app.Get("/logout", controller.LogoutController)
@@ -35,15 +33,13 @@ func RouteInit(app *fiber.App) {
 
 	app.Get("/unauthorized", controller.Unauthorized)
 
-	app.Get("/permission", controller.PermissionController)
-
-	app.Get("/createRole", controller.CreateRoleController)
+	app.Get("/createRole", IsAuthenticated, CheckSession, CheckPermission, controller.CreateRoleController).Name("createRole")
 
 	app.Post("/createRole", controller.CreateRolePostController)
 
-	app.Get("/deleteRole/:id", controller.DeleteRoleController)
+	app.Get("/deleteRole/:id", controller.DeleteRoleController).Name("deleteRole")
 
-	app.Get("/updateRole/:id", IsAuthenticated, CheckSession, controller.UpdateRoleController)
+	app.Get("/updateRole/:id", IsAuthenticated, CheckSession, controller.UpdateRoleController).Name("UpdateRole")
 
 	app.Put("/updateRole/:id", controller.UpdateRolePutController)
 

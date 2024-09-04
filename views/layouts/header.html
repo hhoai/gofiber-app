@@ -57,41 +57,18 @@
         <p class="fs-16">
           <i class="fas fa-bars icon menu-icon"></i>
           <!-- <HiMenu class="icon menu-icon" /> -->
-          Danh mục sản phẩm
+          Danh mục
           <i class="fas fa-chevron-down icon down-icon"></i>
           <!-- <HiChevronDown class="icon down-icon" /> -->
         </p>
       </a>
     </li>
+    {{range .SidebarItems}}
     <li class="nav-right">
-      <a href="/" class="nav-right-container">
-        <p class="nav-text">Trang chủ</p>
+      <a href="{{.Route}}" class="nav-right-container">
+        <p class="nav-text">{{.Title}}</p>
       </a>
     </li>
-    <li class="nav-right">
-      <div href="#" class="nav-right-container">
-        <div class="nav-text">
-          <div>Giới thiệu</div>
-          <i class="fas fa-chevron-down icon down-icon"></i>
-        </div>
-        <div class="sub-nav">
-          <div class="introduce">
-            <a href="../introduction" class="introduce-item">
-              <div class="sub-nav-content">Giới thiệu chung</div>
-            </a>
-          </div>
-          <div class="introduce">
-            <a href="../saleActivity" class="introduce-item">
-              <div class="sub-nav-content">Hoạt động kinh doanh</div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </li>
-    <li class="nav-right">
-      <a href="./contact" class="nav-right-container">
-        <p class="nav-text">Liên hệ</p>
-      </a>
-    </li>
+    {{end}}
   </div>
 </div>

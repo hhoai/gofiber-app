@@ -33,10 +33,11 @@ func RoleController(c *fiber.Ctx) error {
 		}
 
 		log.Println(role)
-		// roles :=
+		sidebar := Sidebar(c)
 
 		return c.Render("role", fiber.Map{
-			"Roles": role,
+			"Roles":        role,
+			"SidebarItems": sidebar,
 		}, "layouts/main")
 	}
 	return c.Redirect("/information")

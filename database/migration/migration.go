@@ -9,10 +9,11 @@ import (
 
 func RunMigration() {
 	err := database.DB.AutoMigrate(&entity.UserEntity{})
-	database.DB.AutoMigrate(&entity.Account{})
 	database.DB.AutoMigrate(&entity.Role{})
 	database.DB.AutoMigrate(&entity.Permission{})
 	database.DB.AutoMigrate(&entity.RolePermission{})
+	database.DB.AutoMigrate(&entity.SidebarItem{})
+	database.DB.AutoMigrate(&entity.RoleSidebarItem{})
 	if err != nil {
 		log.Println(err)
 	}

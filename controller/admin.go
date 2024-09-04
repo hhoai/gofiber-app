@@ -7,7 +7,10 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/session"
 )
+
+var Store *session.Store
 
 func GetSessionUser(c *fiber.Ctx) entity.UserEntity {
 	var user entity.UserEntity
@@ -56,8 +59,11 @@ func AdminController(c *fiber.Ctx) error {
 			return c.Status(fiber.StatusInternalServerError).SendString(result.Error.Error())
 		}
 
+		sidebar := Sidebar(c)
+
 		user := fiber.Map{
-			"Users": users,
+			"Users":        users,
+			"SidebarItems": sidebar,
 		}
 
 		// log.Println(user)
