@@ -1,33 +1,77 @@
 <div class="admin-container">
   <div class="admin-content">
     <a href="/role">Quản lý vai trò</a>
-    <a class="create" href="/createAccount">Thêm tài khoản</a>
-    <table>
-     <tr>
-        <th>STT</th>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Address</th>
-        <th>Phone</th>
-        <th>Role</th>
-        <th>Action</th>
-     </tr>
-      {{range .Users}}
-      <tr>
-        <td>{{.RowNumber}}</td>
-        <td>{{.Name}}</td>
-        <td>{{.Email}}</td>
-        <td>{{.Address}}</td>
-        <td>{{.Phone}}</td>
-        <td>{{.RoleName}}</td>
-        <td>
-          <a href="/updateAccount/{{.ID}}">Update</a>
-          <a href="/deleteAccount/{{.ID}}">Delete</a>
-        </td>
-      </tr>
-      {{end}}
-    </table>
+    <a class="create" href="/account">Thêm tài khoản</a>
+    <form id="form">
+      <table>
+        <tr>
+          <th>STT</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Phone</th>
+          <th>Role</th>
+          <th>Action</th>
+        </tr>
+        {{range .Users}}
+        <tr>
+          <td>{{.RowNumber}}</td>
+          <td>{{.Name}}</td>
+          <td>{{.Email}}</td>
+          <td>{{.Address}}</td>
+          <td>{{.Phone}}</td>
+          <td>{{.RoleName}}</td>
+          <td>
+            <button type="button" class="update-btn" data-id="{{.ID}}">
+              Update
+            </button>
+            <button type="button" class="delete-btn" data-id="{{.ID}}">
+              Delete
+            </button>
+          </td>
+        </tr>
+        {{end}}
+      </table>
+    </form>
     <a href="/logout">Đăng xuất</a>
   </div>
-
 </div>
+
+<script>
+  $(document).ready(function () {
+    $(".update-btn").on("click", function () {
+      let itemId = $(this).data("id");
+
+      $.ajax({
+        url: "/account/" + itemId,
+        type: "GET",
+        data: JSON.stringify({ title: "Updated Title" }), // Example update data
+        contentType: "application/json",
+        success: function (response) {
+          window.location.href = "/account/" + itemId;
+          console.log(response);
+        },
+        error: function (xhr, status, error) {
+          console.error("Update failed:", error);
+        },
+      });
+    });
+
+    // Delete button click
+    $(".delete-btn").on("click", function () {
+      let itemId = $(this).data("id");
+
+      $.ajax({
+        url: "/account/" + itemId,
+        type: "DELETE",
+        success: function (response) {
+          window.location.href = "/admin";
+          console.log(response);
+        },
+        error: function (xhr, status, error) {
+          console.error("Delete failed:", error);
+        },
+      });
+    });
+  });
+</script>

@@ -7,8 +7,8 @@ import (
 )
 
 func RouteInit(app *fiber.App) {
+	account := app.Group("/account", IsAuthenticated, CheckSession)
 
-	// r.Get("/user", handler.UserHandlerGetAll)
 	app.Get("/information", IsAuthenticated, CheckSession, controller.InformationController)
 
 	app.Post("/signup", controller.SignupPostController)
@@ -21,15 +21,15 @@ func RouteInit(app *fiber.App) {
 
 	app.Get("/admin", IsAuthenticated, CheckSession, controller.AdminController)
 
-	app.Get("/deleteAccount/:id", IsAuthenticated, CheckSession, CheckPermission, controller.DeleteController).Name("deleteAccount")
+	account.Delete("/:id", controller.DeleteController).Name("deleteAccount")
 
-	app.Get("/createAccount", IsAuthenticated, CheckSession, CheckPermission, controller.CreateAccountController).Name("createAccount")
+	account.Get("/", CheckPermission, controller.CreateAccountController).Name("createAccount")
 
-	app.Post("/createAccount", controller.CreateAccountPostController)
+	account.Post("/", controller.CreateAccountPostController)
 
-	app.Get("/updateAccount/:id", IsAuthenticated, CheckSession, CheckPermission, controller.UpdateAccountController).Name("updateAccount")
+	account.Get("/:id", controller.UpdateAccountController).Name("updateAccount")
 
-	app.Put("/updateAccount/:id", controller.UpdateAccountPutController)
+	account.Put("/:id", controller.UpdateAccountPutController)
 
 	app.Get("/unauthorized", controller.Unauthorized)
 
@@ -44,4 +44,7 @@ func RouteInit(app *fiber.App) {
 	app.Put("/updateRole/:id", controller.UpdateRolePutController)
 
 	app.Get("/role", controller.RoleController)
+
+	app.Get("/sales", controller.SalesController)
+	app.Get("/data", controller.GetSalesData)
 }

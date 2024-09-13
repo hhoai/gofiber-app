@@ -18,5 +18,6 @@ func LoginController(c *fiber.Ctx) error {
 
 	return c.Render("login", fiber.Map{
 		"Title": "Đăng Nhập",
+		"Ctx":   c,
 	}, "layouts/main")
 }

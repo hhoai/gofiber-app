@@ -78,7 +78,7 @@ func CheckPermission(c *fiber.Ctx) error {
 
 	log.Println("check permission", permission, rolePermission)
 	log.Println("mang cac permission tuong ung voi role nguoi dung :", permissionID)
-	log.Println("role", roleId)
+	log.Println("role", roleId, requiredPermission)
 
 	if contains(permissionID, permission.ID) {
 		log.Println("contains")

@@ -19,13 +19,9 @@ type PermissionsRequest struct {
 	Permissions []int `json:"permission" form:"permission"`
 }
 
-type SidebarItem struct {
-	ItemID uint `gorm:"primaryKey"`
-	Title  string
-	Route  string
-}
-
-type RoleSidebarItem struct {
-	RoleID uint
-	ItemID uint
+type SalesData struct {
+	ID          uint    `json:"id"`
+	Month       string  `json:"month"`
+	SalesAmount float64 `json:"sales_amount"`
+	CreatedAt   string  `json:"created_at"`
 }

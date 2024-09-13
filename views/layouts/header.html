@@ -8,7 +8,6 @@
       <a class="bg-red" href="/signup"> Đăng ký </a>
       | <a href="/login">Đăng nhập</a>
     </div>
-    
   </div>
 </div>
 
@@ -63,10 +62,47 @@
         </p>
       </a>
     </li>
-    {{range .SidebarItems}}
+    
+    {{if checkPermissionUser "createAccount" .Ctx}}
     <li class="nav-right">
-      <a href="{{.Route}}" class="nav-right-container">
-        <p class="nav-text">{{.Title}}</p>
+      <a href="/createAccount" class="nav-right-container">
+        <p class="nav-text">Thêm tài khoản</p>
+      </a>
+    </li>
+    {{end}} {{if checkPermissionUser "updateAccount" .Ctx}}
+    <li class="nav-right">
+      <a href="/admin" class="nav-right-container">
+        <p class="nav-text">Cập nhật tài khoản</p>
+      </a>
+    </li>
+    {{end}} {{if checkPermissionUser "deleteAccount" .Ctx}}
+    <li class="nav-right">
+      <a href="/admin" class="nav-right-container">
+        <p class="nav-text">Xóa tài khoản</p>
+      </a>
+    </li>
+    {{end}} {{if checkPermissionUser "createRole" .Ctx}}
+    <li class="nav-right">
+      <a href="/role" class="nav-right-container">
+        <p class="nav-text">Quản lý vai trò</p>
+      </a>
+    </li>
+    {{end}} {{if checkPermissionUser "createRole" .Ctx}}
+    <li class="nav-right">
+      <a href="/createRole" class="nav-right-container">
+        <p class="nav-text">Thêm vai trò</p>
+      </a>
+    </li>
+    {{end}} {{if checkPermissionUser "updateRole" .Ctx}}
+    <li class="nav-right">
+      <a href="/role" class="nav-right-container">
+        <p class="nav-text">Sửa vai trò</p>
+      </a>
+    </li>
+    {{end}} {{if checkPermissionUser "deleteRole" .Ctx}}
+    <li class="nav-right">
+      <a href="/role" class="nav-right-container">
+        <p class="nav-text">Xóa vai trò</p>
       </a>
     </li>
     {{end}}

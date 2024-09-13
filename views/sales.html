@@ -1,0 +1,64 @@
+<div id="container" style="width: 60%; height: 400px"></div>
+<script>
+  function fetchData() {
+    fetch("/data")
+      .then((response) => response.json())
+      .then((salesData) => {
+        const categories = salesData.map((data) => data.month);
+        const data = salesData.map((data) => data.sales_amount);
+
+        // Highcharts configuration
+        Highcharts.chart("container", {
+          // chart: {
+          //   type: "column",
+          // },
+          title: {
+            // text: "Monthly Sales Data",
+            // align: "right", // Căn về bên phải
+            // verticalAlign: "top", // Đặt ở trên cùng
+            // style: {
+            //   color: "#FF0000", // Màu đỏ
+            //   fontWeight: "bold", // In đậm
+            //   fontSize: "24px", // Cỡ chữ lớn
+            // },
+            // margin: 20, // Khoảng cách từ trên xuống
+            text:null, // ẩn title
+          },
+          legend: {
+            align: "right", // Căn về bên phải
+            verticalAlign: "top", // vị trí Ở trên
+            layout: "vertical", // Hiển thị theo chiều dọc
+            // enable: false,  // ẩn legend
+          },
+          xAxis: {
+            categories: categories,
+            title: {
+              text: "Months",
+            },
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: "Sales Amount",
+            },
+          },
+          series: [
+            {
+              type: "column",
+              name: "Sales",
+              data: data,
+            },
+            {
+              type: "line",
+              name: "Sales",
+              data: data,
+            },
+          ],
+        });
+      })
+      .catch((error) => console.error("Error fetching sales data:", error));
+  }
+
+  // Call the fetchData function on page load
+  fetchData();
+</script>

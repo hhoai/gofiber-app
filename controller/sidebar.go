@@ -8,25 +8,25 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func Sidebar(c *fiber.Ctx) []entity.SidebarItem {
+func PermissionUser(c *fiber.Ctx) []string {
 	user := GetSessionUser(c)
 
-	var roleSidebarItem []entity.RoleSidebarItem
-	if err := database.DB.Where("role_id = ?", user.RoleID).Find(&roleSidebarItem); err != nil {
+	var RolePermission []entity.RolePermission
+	if err := database.DB.Where("role_id = ?", user.RoleID).Find(&RolePermission); err != nil {
 		log.Println(err)
 	}
 
-	var sidebarItems []entity.SidebarItem
-	for _, item := range roleSidebarItem {
-		var sidebarItem entity.SidebarItem
-		if err := database.DB.Where("item_id = ?", item.ItemID).First(&sidebarItem).Error; err != nil {
+	var permissions []string
+	for _, item := range RolePermission {
+		var permission entity.Permission
+		if err := database.DB.Where("id = ?", item.PermissionID).First(&permission).Error; err != nil {
 			log.Println(err)
 		} else {
-			sidebarItems = append(sidebarItems, sidebarItem)
+			permissions = append(permissions, permission.Permission)
 		}
 	}
 
-	log.Println("sidebar: ", sidebarItems)
+	log.Println("sidebar: ", permissions)
 
-	return sidebarItems
+	return permissions
 }

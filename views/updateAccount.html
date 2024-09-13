@@ -47,7 +47,7 @@
       var formData = $(this).serialize();
       $.ajax({
         // url: "/updateAccount/" + $('#accountID').val(),
-        url: "/updateAccount/{{.id}}",
+        url: "/account/{{.id}}",
         method: "PUT",
         data: formData,
       })

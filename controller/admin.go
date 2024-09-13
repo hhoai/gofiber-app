@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fiber-app/database"
+	"strings"
 
 	"fiber-app/model/entity"
 	"log"
@@ -34,6 +35,16 @@ func GetSessionUser(c *fiber.Ctx) entity.UserEntity {
 	return user
 }
 
+func CheckPermissionUser(s string, c *fiber.Ctx) bool {
+	permissions := PermissionUser(c)
+	for _, p := range permissions {
+		if strings.EqualFold(p, s) {
+			return true
+		}
+	}
+	return false
+}
+
 func AdminController(c *fiber.Ctx) error {
 
 	sess, err := Store.Get(c)
@@ -41,34 +52,29 @@ func AdminController(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
 
-	var user = GetSessionUser(c)
-
 	log.Println(sess.Get("username"), "admin")
 
-	if user.RoleID != 1 {
-		var users []entity.UserWithRowNumber
+	// if user.RoleID != 1 {
+	// }
+	var users []entity.UserWithRowNumber
 
-		result := database.DB.Table("user_entities").
-			Joins("INNER JOIN roles ON user_entities.role_id = roles.id").
-			Select("ROW_NUMBER() OVER (ORDER BY id) AS RowNumber, user_entities.id, name, email, address, phone, roles.role AS role_name").
-			Find(&users)
+	result := database.DB.Table("user_entities").
+		Joins("INNER JOIN roles ON user_entities.role_id = roles.id").
+		Select("ROW_NUMBER() OVER (ORDER BY id) AS RowNumber, user_entities.id, name, email, address, phone, roles.role AS role_name").
+		Find(&users)
 
-		// result := database.DB.Raw(sqlQuery).Scan(&users)
-		if result.Error != nil {
-			log.Println(result.Error)
-			return c.Status(fiber.StatusInternalServerError).SendString(result.Error.Error())
-		}
-
-		sidebar := Sidebar(c)
-
-		user := fiber.Map{
-			"Users":        users,
-			"SidebarItems": sidebar,
-		}
-
-		// log.Println(user)
-
-		return c.Render("admin", user, "layouts/main")
+	// result := database.DB.Raw(sqlQuery).Scan(&users)
+	if result.Error != nil {
+		log.Println(result.Error)
+		return c.Status(fiber.StatusInternalServerError).SendString(result.Error.Error())
 	}
-	return c.Redirect("/information")
+
+	data := fiber.Map{
+		"Users": users,
+		"Ctx":   c,
+	}
+
+	// log.Println(user)
+
+	return c.Render("admin", data, "layouts/main")
 }
