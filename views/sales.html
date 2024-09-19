@@ -19,6 +19,7 @@
           <th>Address</th>
           <th>Phone</th>
           <th>Role</th>
+          <th></th>
         </tr>
       </thead>
     </table>
@@ -134,10 +135,34 @@
 
     // client-side
     $("#userTable").DataTable({
+      processing: true,
+      serverSide: true,
+      searchDelay: 500,
       ajax: {
-        url: "/data", // URL API trả về dữ liệu JSON
-        dataSrc: "account", // Trực tiếp lấy dữ liệu từ mảng JSON
+        url: "/data",
+        type: "GET",
+        dataSrc: "account",
       },
+      aoColumnDefs: [
+        {
+          width: "3%",
+          orderable: false,
+          targets: [0, 5],
+        },
+        {
+          targets: [6],
+          orderable: false,
+          checkboxes: {
+            selectRow: true,
+            selectCallback: function (nodes, selected) {
+              $('input[type="checkbox"]', nodes).iCheck("update");
+            },
+            selectAllCallback: function (nodes, selected, indeterminate) {
+              $('input[type="checkbox"]', nodes).iCheck("update");
+            },
+          },
+        },
+      ],
       columns: [
         { data: "RowNumber" }, // Liên kết với "id"
         { data: "Name" },
@@ -145,6 +170,7 @@
         { data: "Address" },
         { data: "Phone" },
         { data: "RoleName" },
+        {data: null}
       ],
       pageLength: 5,
       layout: {
@@ -156,5 +182,4 @@
       },
     });
   });
-  
 </script>
