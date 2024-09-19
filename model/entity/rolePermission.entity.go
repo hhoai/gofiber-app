@@ -24,4 +24,5 @@ type SalesData struct {
 	Month       string  `json:"month"`
 	SalesAmount float64 `json:"sales_amount"`
 	CreatedAt   string  `json:"created_at"`
+	ProductID   int     `json:"product_id"`
 }

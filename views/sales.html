@@ -1,11 +1,54 @@
-<div id="container" style="width: 60%; height: 400px"></div>
+<div class="admin-container">
+  <div class="table" style="width: 60%; margin-bottom: 20px">
+    <!-- <table id="userTable" class="display">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Month</th>
+          <th>Sale Amount</th>
+          <th>Created At</th>
+        </tr>
+      </thead>
+    </table> -->
+    <table id="userTable" class="display">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Phone</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div id="container" style="width: 60%; height: 400px"></div>
+</div>
 <script>
+  // const fetchDataTable = () => {
+  //   fetch("/data")
+  //     .then((response) => response.json())
+  //     .then((salesData) => {
+  //       const data = salesData.data.map((obj)=>
+  //         Object.values(obj)
+  //       )
+  //       console.log(salesData)
+  //       console.log(data)
+  //       $("#userTable").DataTable({
+  //         data: data,
+  //       });
+  //     })
+  //     .catch((error) => console.error("Error fetching sales data:", error));
+  // };
+
   function fetchData() {
     fetch("/data")
       .then((response) => response.json())
       .then((salesData) => {
-        const categories = salesData.map((data) => data.month);
-        const data = salesData.map((data) => data.sales_amount);
+        const categories = salesData.product_1.map((data) => data.month);
+        const data1 = salesData.product_1.map((data) => data.sales_amount);
+        const data2 = salesData.product_2.map((data) => data.sales_amount);
 
         // Highcharts configuration
         Highcharts.chart("container", {
@@ -22,7 +65,7 @@
             //   fontSize: "24px", // Cỡ chữ lớn
             // },
             // margin: 20, // Khoảng cách từ trên xuống
-            text:null, // ẩn title
+            text: null, // ẩn title
           },
           legend: {
             align: "right", // Căn về bên phải
@@ -45,13 +88,23 @@
           series: [
             {
               type: "column",
-              name: "Sales",
-              data: data,
+              name: "Product 1",
+              data: data1,
+            },
+            {
+              type: "column",
+              name: "Product 2",
+              data: data2,
             },
             {
               type: "line",
-              name: "Sales",
-              data: data,
+              name: "Product 1",
+              data: data1,
+            },
+            {
+              type: "line",
+              name: "Product 2",
+              data: data2,
             },
           ],
         });
@@ -59,6 +112,49 @@
       .catch((error) => console.error("Error fetching sales data:", error));
   }
 
-  // Call the fetchData function on page load
+  // // Call the fetchData function on page load
+  // fetchDataTable();
   fetchData();
+
+  $(document).ready(function () {
+    // Khởi tạo DataTables với AJAX
+    // $("#userTable").DataTable({
+    //   ajax: {
+    //     url: "/data", // URL API trả về dữ liệu JSON
+    //     dataSrc: "data", // Trực tiếp lấy dữ liệu từ mảng JSON
+    //   },
+    //   columns: [
+    //     { data: "id" }, // Liên kết với "id"
+    //     { data: "month" },
+    //     { data: "sales_amount" },
+    //     { data: "created_at" },
+    //   ],
+
+    // });
+
+    // client-side
+    $("#userTable").DataTable({
+      ajax: {
+        url: "/data", // URL API trả về dữ liệu JSON
+        dataSrc: "account", // Trực tiếp lấy dữ liệu từ mảng JSON
+      },
+      columns: [
+        { data: "RowNumber" }, // Liên kết với "id"
+        { data: "Name" },
+        { data: "Email" },
+        { data: "Address" },
+        { data: "Phone" },
+        { data: "RoleName" },
+      ],
+      pageLength: 5,
+      layout: {
+        topStart: {
+          pageLength: {
+            menu: [5, 10, 25, 50],
+          },
+        },
+      },
+    });
+  });
+  
 </script>

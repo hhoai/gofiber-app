@@ -46,5 +46,6 @@ func RouteInit(app *fiber.App) {
 	app.Get("/role", controller.RoleController)
 
 	app.Get("/sales", controller.SalesController)
+
 	app.Get("/data", controller.GetSalesData)
 }
