@@ -61,7 +61,7 @@ func GetSalesData(c *fiber.Ctx) error {
 		"draw":            draw,
 		"recordsTotal":    totalRecords,
 		"recordsFiltered": filteredRecords,
-		"account":         account,
+		"data":            account,
 		// "data":      sales,
 		"product_1": product1,
 		"product_2": product2,

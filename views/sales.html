@@ -10,19 +10,24 @@
         </tr>
       </thead>
     </table> -->
-    <table id="userTable" class="display">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Address</th>
-          <th>Phone</th>
-          <th>Role</th>
-          <th></th>
-        </tr>
-      </thead>
-    </table>
+
+    <form id="frm-example">
+      <table id="userTable" class="display">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Action</th>
+            <th></th>
+          </tr>
+        </thead>
+      </table>
+      <button type="submit">Xóa</button>
+    </form>
   </div>
   <div id="container" style="width: 60%; height: 400px"></div>
 </div>
@@ -133,34 +138,26 @@
 
     // });
 
-    // client-side
-    $("#userTable").DataTable({
+    var table = $("#userTable").DataTable({
       processing: true,
       serverSide: true,
       searchDelay: 500,
       ajax: {
         url: "/data",
         type: "GET",
-        dataSrc: "account",
+        dataSrc: (json) => {
+          json.data.forEach((element) => {
+            element.Action = `<button type="button" class="update-btn" data-id="${element.ID}">Update</button> <button type="button" class="delete-btn" data-id="${element.ID}"> Delete </button>`;
+            element.Checkbox = `<input type="checkbox" data-id="${element.ID}" name="checkbox_id[]">`;
+          });
+          return json.data;
+        },
       },
       aoColumnDefs: [
         {
           width: "3%",
           orderable: false,
-          targets: [0, 5],
-        },
-        {
-          targets: [6],
-          orderable: false,
-          checkboxes: {
-            selectRow: true,
-            selectCallback: function (nodes, selected) {
-              $('input[type="checkbox"]', nodes).iCheck("update");
-            },
-            selectAllCallback: function (nodes, selected, indeterminate) {
-              $('input[type="checkbox"]', nodes).iCheck("update");
-            },
-          },
+          // targets: [0, 5],
         },
       ],
       columns: [
@@ -170,8 +167,36 @@
         { data: "Address" },
         { data: "Phone" },
         { data: "RoleName" },
+        { data: "Action" },
+        // { data: "Checkbox" },
         {data: null}
       ],
+      columnDefs: [
+        {
+          targets: 7,
+          checkboxes: {
+            selectRow: true,
+          },
+        },
+      ],
+      select: {
+        style: "multi",
+      },
+
+      order: [[0, "asc"]],
+
+      language: {
+        emptyTable: "Không có dữ liệu.",
+        sLengthMenu: "Số bản ghi hiển thị trên 1 trang: _MENU_ ",
+        sInfo: "Hiển thị từ _START_ đến _END_ của _TOTAL_ bản ghi",
+        sSearch: "Tìm kiếm:",
+        oPaginate: {
+          sFirst: "Đầu",
+          sPrevious: "Trước",
+          sNext: "Tiếp",
+          sLast: "Cuối",
+        },
+      },
       pageLength: 5,
       layout: {
         topStart: {
@@ -180,6 +205,67 @@
           },
         },
       },
+    });
+    // Handle form submission event
+    $("#frm-example").on("submit", function (e) {
+      e.preventDefault();
+
+      var form = this;
+
+      var rows_selected = table.column(7).checkboxes.selected();
+
+      // Iterate over all selected checkboxes
+      $.each(rows_selected, function (index, rowId) {
+        // Create a hidden element
+        console.log(rowId)
+        $(form).append(
+          $("<input>").attr("type", "hidden").attr("name", "id[]").val(rowId)
+        );
+      });
+
+      console.log(rows_selected.join(","));
+
+      // Output form data to a console
+      console.log($(form).serialize());
+
+      // Remove added elements
+      // $('input[name="id\[\]"]', form).remove();
+
+      // Prevent actual form submission
+    });
+    //  update-btn
+    $(document).on("click", ".update-btn", function () {
+      let itemId = $(this).data("id");
+      $.ajax({
+        url: "/account/" + itemId,
+        type: "GET",
+        data: JSON.stringify({ title: "Updated Title" }), // Example update data
+        contentType: "application/json",
+        success: function (response) {
+          window.location.href = "/account/" + itemId;
+          console.log(response);
+        },
+        error: function (xhr, status, error) {
+          console.error("Update failed:", error);
+        },
+      });
+    });
+
+    // delete-btn
+    $(document).on("click", ".delete-btn", function () {
+      let itemId = $(this).data("id");
+
+      $.ajax({
+        url: "/account/" + itemId,
+        type: "DELETE",
+        success: function (response) {
+          window.location.href = "/admin";
+          console.log(response);
+        },
+        error: function (xhr, status, error) {
+          console.error("Delete failed:", error);
+        },
+      });
     });
   });
 </script>
