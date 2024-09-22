@@ -15,4 +15,8 @@ a {
 
 li {
   list-style: none;
+}
+
+.selectedRow {
+  background-color: pink !important;
 }/*# sourceMappingURL=styles.css.map */

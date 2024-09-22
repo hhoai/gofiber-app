@@ -22,6 +22,7 @@ func RouteInit(app *fiber.App) {
 	app.Get("/admin", IsAuthenticated, CheckSession, controller.AdminController)
 
 	account.Delete("/:id", controller.DeleteController).Name("deleteAccount")
+	app.Delete("/delete-accounts", controller.DeleteMultipleAccounts)
 
 	account.Get("/", CheckPermission, controller.CreateAccountController).Name("createAccount")
 

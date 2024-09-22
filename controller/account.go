@@ -267,3 +267,37 @@ func DeleteController(c *fiber.Ctx) error {
 	}
 	return c.Render("admin", user, "layouts/main")
 }
+
+func DeleteMultipleAccounts(c *fiber.Ctx) error {
+	// Định nghĩa một struct để nhận mảng ID từ client
+	type RequestBody struct {
+		AccountIDs []int `json:"account_id"`
+	}
+
+	var reqBody RequestBody
+
+	// Parse JSON từ request body
+	if err := c.BodyParser(&reqBody); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Dữ liệu không hợp lệ",
+		})
+	}
+	// Kiểm tra nếu không có account ID nào được gửi lên
+	if len(reqBody.AccountIDs) == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Vui lòng chọn bản ghi cần xóa",
+		})
+	}
+
+	// Xóa nhiều bản ghi trong bảng user_entities dựa vào mảng ID
+	if err := database.DB.Where("id IN ?", reqBody.AccountIDs).Delete(&entity.UserEntity{}).Error; err != nil {
+		log.Println("Đã xảy ra lỗi:", err)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Đã xảy ra lỗi",
+		})
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "Xóa thành công",
+	})
+}

@@ -14,10 +14,10 @@ func GetSalesData(c *fiber.Ctx) error {
 	database.DB.Find(&sales)
 
 	var product1 []entity.SalesData
-	database.DB.Where("product_id = 1").Find(&product1)
+	//database.DB.Where("product_id = 1").Find(&product1)
 
 	var product2 []entity.SalesData
-	database.DB.Where("product_id = 2").Find(&product2)
+	//database.DB.Where("product_id = 2").Find(&product2)
 
 	draw, _ := strconv.Atoi(c.Query("draw"))
 	start, _ := strconv.Atoi(c.Query("start"))
