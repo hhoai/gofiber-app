@@ -148,7 +148,8 @@
         dataSrc: (json) => {
           json.data.forEach((element) => {
             element.Action = `<button type="button" class="update-btn" data-id="${element.ID}">Update</button> <button type="button" class="delete-btn" data-id="${element.ID}"> Delete </button>`;
-            element.Checkbox = `<input type="checkbox" data-id="${element.ID}" name="checkbox_id[]">`;
+            // element.Checkbox = `<input type="checkbox" data-id="${element.ID}" value="${element.ID}" name="checkbox_id[]">`;
+            element.Checkbox = `<input type="checkbox" class="item-account" value="${element.ID}" name="account_id[]">`;
           });
           return json.data;
         },
@@ -168,20 +169,20 @@
         { data: "Phone" },
         { data: "RoleName" },
         { data: "Action" },
-        // { data: "Checkbox" },
-        {data: null}
+        { data: "Checkbox" },
+        // {data: null}
       ],
-      columnDefs: [
-        {
-          targets: 7,
-          checkboxes: {
-            selectRow: true,
-          },
-        },
-      ],
-      select: {
-        style: "multi",
-      },
+      // columnDefs: [
+      //   {
+      //     targets: 7,
+      //     checkboxes: {
+      //       selectRow: true,
+      //     },
+      //   },
+      // ],
+      // select: {
+      //   style: "multi",
+      // },
 
       order: [[0, "asc"]],
 
@@ -205,33 +206,45 @@
           },
         },
       },
+      rowCallback: function (row, data) {
+        $(row).on("click", function (e) {
+          if (!$(e.target).is(":checkbox")) {
+            //toogle checkbox
+            var checkbox = $(this).find(".item-account");
+            checkbox.prop("checked", !checkbox.prop("checked"));
+            //add class for selected row
+          }
+          if (!row.classList.contains("selectedRow")) {
+            row.classList.add("selectedRow");
+          } else {
+            row.classList.remove("selectedRow");
+          }
+        });
+      },
     });
     // Handle form submission event
     $("#frm-example").on("submit", function (e) {
+      let account_id = [];
       e.preventDefault();
-
-      var form = this;
-
-      var rows_selected = table.column(7).checkboxes.selected();
-
-      // Iterate over all selected checkboxes
-      $.each(rows_selected, function (index, rowId) {
-        // Create a hidden element
-        console.log(rowId)
-        $(form).append(
-          $("<input>").attr("type", "hidden").attr("name", "id[]").val(rowId)
-        );
+      $('input[name="account_id[]"]:checked').each(function () {
+        account_id.push(parseInt($(this).val(), 10));
+        console.log(account_id);
+        $.ajax({
+          url: "/delete-accounts",
+          method: "DELETE",
+          contentType: "application/json",
+          data: JSON.stringify({ account_id: account_id }),
+          success: function (response) {
+            table.ajax.reload();
+            // alert(response.message);
+            console.log("Deleted successfully", response);
+          },
+          error: function (xhr, status, error) {
+            alert(error);
+            console.error("Error deleting accounts:", error);
+          },
+        });
       });
-
-      console.log(rows_selected.join(","));
-
-      // Output form data to a console
-      console.log($(form).serialize());
-
-      // Remove added elements
-      // $('input[name="id\[\]"]', form).remove();
-
-      // Prevent actual form submission
     });
     //  update-btn
     $(document).on("click", ".update-btn", function () {

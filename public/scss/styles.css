@@ -15,4 +15,8 @@ a {
 
 li {
   list-style: none;
+}
+
+.selectedRow {
+  background-color: rgb(227, 227, 227) !important;
 }/*# sourceMappingURL=styles.css.map */

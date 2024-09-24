@@ -48,4 +48,6 @@ func RouteInit(app *fiber.App) {
 	app.Get("/sales", controller.SalesController)
 
 	app.Get("/data", controller.GetSalesData)
+
+	app.Delete("/delete-accounts", controller.DeleteMultipleAccounts)
 }
