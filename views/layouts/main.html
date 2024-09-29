@@ -32,11 +32,55 @@
     <link rel="stylesheet" href="/scss/login.css" />
     <link rel="stylesheet" href="/scss/signup.css" />
     <link rel="stylesheet" href="/scss/admin.css" />
+
+
+    <link rel="stylesheet" href="/main/css/style.css" />
+    <link rel="stylesheet" href="/main/css/color_theme.css" />
+    <link rel="stylesheet" href="/main/css/skin_color.css" />
+    <link rel="stylesheet" href="/main/css/style_rtl.css" />
+    <link rel="stylesheet" href="/main/css/vendors_css.css" />
+
+    <script src="/main/js/vendors.min.js"></script>
+	  <script src="/main/js/pages/chat-popup.js"></script>
+    <script src="/assets/icons/feather-icons/feather.min.js"></script>
+    <script src="/assets/vendor_components/jquery-toast-plugin-master/src/jquery.toast.js"></script>
+
+    <script src="/main/js/template.js"></script>
+    <script src="/main/js/pages/toastr.js"></script>    
+    <script src="/main/js/pages/notification.js"></script>    
+
   </head>
-  <body>
+  <body class="theme-primary">
+    <div id="loader"></div>
     {{ template "layouts/header" .}}
     <div>{{ embed }}</div>
     {{ template "layouts/footer" .}}
+    <script>
+        function showSuccess(message) {
+          $.toast({
+            heading: 'Thành công',
+            text: message,
+            position: 'top-right',
+            loaderBg: '#ff6849',
+            icon: 'success',
+            hideAfter: 3500,
+            stack: 6
+          });
+        }
+
+        function showError(message) {
+          $.toast({
+            heading: 'Đã xảy ra lỗi',
+            text: message,
+            position: 'top-right',
+            loaderBg: '#ff6849',
+            icon: 'error',
+            hideAfter: 3500
+
+        });
+        }
+    </script>
+    
   </body>
   <!-- Bootstrap JS and dependencies -->
 </html>
